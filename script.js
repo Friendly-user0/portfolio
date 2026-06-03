@@ -60,8 +60,10 @@ const defaultLines = [
 let i = 0;
 function cycleDefaultTerminal() {
   if (!isHovering) {
-    termText.innerText = `user@cyber-nish:~$ ${defaultLines[i % defaultLines.length]}`;
-    i++;
+    if (termText) {
+      termText.innerText = `user@cyber-nish:~$ ${defaultLines[i % defaultLines.length]}`;
+      i++;
+    }
   }
 }
 
@@ -74,7 +76,6 @@ const termTriggers = document.querySelectorAll("[data-term]");
 termTriggers.forEach((el) => {
   el.addEventListener("mouseenter", (e) => {
     isHovering = true;
-    // Typewriter effect for hover
     const targetText = `user@cyber-nish:~$ ${e.target.getAttribute("data-term")}`;
     termText.innerText = targetText;
   });
@@ -83,4 +84,11 @@ termTriggers.forEach((el) => {
     isHovering = false;
     termText.innerText = `user@cyber-nish:~$ returning to background tasks...`;
   });
+});
+
+// Re-run lucide injection on DOM content load to guarantee safe render
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 });
