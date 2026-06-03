@@ -5,74 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nischal B. Thapa | Security Researcher</title>
   <link rel="icon" href="https://avatars.githubusercontent.com/u/214543684?v=4" />
-
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+  <!-- CUSTOM CURSOR -->
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-outline" id="cursor-outline"></div>
+  <div class="cursor-ripple" id="cursor-ripple"></div>
 
+  <!-- LAYERED BACKGROUND SYSTEM -->
   <div class="bg">
+    <!-- Layer 0: Base gradient foundation (never black) -->
+    <div class="bg-base"></div>
+    <!-- Layer 1: Ambient luminous fog (kills dead black zones) -->
+    <div class="ambient-fog"></div>
+    <!-- Layer 2: Canvas particle field -->
     <canvas id="bg-canvas"></canvas>
+    <!-- Layer 3: Cinematic grain -->
     <div class="noise-overlay"></div>
+    <!-- Layer 4: Scanline micro-texture -->
+    <div class="scanlines"></div>
   </div>
 
+  <!-- TERMINAL FEED -->
   <div class="terminal" id="terminal">
-    <i class="fa-solid fa-terminal term-icon"></i>
-    <span id="term-text">user@cyber-nish:~$ ./initialize_profile.sh</span>
+    <span class="term-prompt">user@cyber-nish:~$</span>
+    <span id="term-text">./initialize_profile.sh</span>
+    <span class="term-cursor">█</span>
   </div>
 
   <main class="container">
 
+    <!-- HERO -->
     <header class="hero reveal" data-term="evaluating host... identifying target... cyber-nish loaded.">
-      <div class="pfp-container">
+      <div class="pfp-container" id="pfp-magnetic">
         <img class="pfp" src="https://media.licdn.com/dms/image/v2/D5616AQEj8tWX729m-Q/profile-displaybackgroundimage-shrink_350_1400/B56Z4BZz9sJwAU-/0/1778140004464?e=1782345600&v=beta&t=xyL-Xectc-IETuAMvkS8on1tOLda8G5Iiyo2XtYshgg" alt="Nischal Bahadur Thapa" />
         <div class="pfp-glow"></div>
+        <div class="pfp-ring pfp-ring-1"></div>
+        <div class="pfp-ring pfp-ring-2"></div>
       </div>
 
       <h1>Nischal Bahadur Thapa</h1>
-      <h2 class="role">Independent Security Researcher</h2>
-      <p class="sub">Vulnerability Research | AI Security | Malware Analysis | OSINT</p>
+      <h2 class="role"><span class="role-prefix">//</span> Independent Security Researcher</h2>
+      <p class="sub">Vulnerability Research &nbsp;|&nbsp; AI Security &nbsp;|&nbsp; Malware Analysis &nbsp;|&nbsp; OSINT</p>
 
       <div class="socials">
-        <a href="https://github.com/Friendly-user0" target="_blank" data-term="executing git clone friendly-user0..."><i class="fa-brands fa-github"></i></a>
-        <a href="https://www.youtube.com/@shin_bdr" target="_blank" data-term="buffering vulnerability walkthroughs..."><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://www.linkedin.com/in/cyber-nish" target="_blank" data-term="establishing secure connection to LinkedIn..."><i class="fa-brands fa-linkedin"></i></a>
-        <a href="https://www.instagram.com/shin.cyber/" target="_blank" data-term="mapping social network..."><i class="fa-brands fa-instagram"></i></a>
-        <a href="mailto:nishthapa09@gmail.com" data-term="opening smtp relay..."><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://github.com/Friendly-user0" target="_blank" class="social-link" data-term="executing git clone friendly-user0...">
+          <i class="fa-brands fa-github"></i><span class="social-label">GitHub</span>
+        </a>
+        <a href="https://www.youtube.com/@shin_bdr" target="_blank" class="social-link" data-term="buffering vulnerability walkthroughs...">
+          <i class="fa-brands fa-youtube"></i><span class="social-label">YouTube</span>
+        </a>
+        <a href="https://www.linkedin.com/in/cyber-nish" target="_blank" class="social-link" data-term="establishing secure connection to LinkedIn...">
+          <i class="fa-brands fa-linkedin"></i><span class="social-label">LinkedIn</span>
+        </a>
+        <a href="https://www.instagram.com/shin.cyber/" target="_blank" class="social-link" data-term="mapping social network...">
+          <i class="fa-brands fa-instagram"></i><span class="social-label">Instagram</span>
+        </a>
+        <a href="mailto:nishthapa09@gmail.com" class="social-link" data-term="opening smtp relay...">
+          <i class="fa-solid fa-envelope"></i><span class="social-label">Email</span>
+        </a>
       </div>
     </header>
 
+    <!-- STATS -->
     <section class="stats reveal" data-term="querying statistics database...">
-      <div class="stat-card"><i class="fa-solid fa-crosshair"></i> <span>Top 0.016% HTB</span></div>
-      <div class="stat-card"><i class="fa-solid fa-shield-virus"></i> <span>Bug Bounty Hunter</span></div>
-      <div class="stat-card"><i class="fa-solid fa-microchip"></i> <span>AI Security Analyst</span></div>
-      <div class="stat-card"><i class="fa-solid fa-code"></i> <span>Tool Developer</span></div>
+      <div class="stat-card"><i class="fa-solid fa-crosshair"></i><span>Top 0.016% HTB</span></div>
+      <div class="stat-card"><i class="fa-solid fa-shield-virus"></i><span>Bug Bounty Hunter</span></div>
+      <div class="stat-card"><i class="fa-solid fa-microchip"></i><span>AI Security Analyst</span></div>
+      <div class="stat-card"><i class="fa-solid fa-code"></i><span>Tool Developer</span></div>
     </section>
 
+    <!-- OVERVIEW -->
     <section class="section reveal glass-panel" data-term="cat overview.txt">
       <div class="section-header">
         <i class="fa-solid fa-user-secret"></i> <h3>Objective & Overview</h3>
       </div>
       <p class="text-block">
         Independent Researcher and Technical Analyst with experience in vulnerability research, technical analysis, OSINT, development, and security-focused automation. Skilled in vulnerability assessment, technical investigation, and building adaptable solutions across modern IT environments.
-        <br><br>
-        <span class="highlight">"With a proven track record in vulnerability research, I am currently deepening my expertise in AI security and malware development, with a focus on automating and enhancing threat detection through artificial intelligence to stop cybercrime from spreading."</span>
       </p>
+      <blockquote class="highlight">
+        "With a proven track record in vulnerability research, I am currently deepening my expertise in AI security and malware development, with a focus on automating and enhancing threat detection through artificial intelligence to stop cybercrime from spreading."
+      </blockquote>
     </section>
 
+    <!-- EXPERIENCE -->
     <section class="section reveal" data-term="ls -la /var/log/experience/">
       <div class="section-header">
         <i class="fa-solid fa-briefcase"></i> <h3>Experience</h3>
       </div>
 
       <details class="interactive-dropdown glass-card">
-        <summary><span class="arrow">▶</span> Independent Researcher | AI Security <span class="date">Jun 2025 - Present</span></summary>
+        <summary><span class="arrow">▶</span><span class="job-title">Independent Researcher | AI Security</span><span class="date">Jun 2025 – Present</span></summary>
         <div class="content markdown">
           <ul>
             <li>Currently engaged in researching Artificial Intelligence attack vectors.</li>
@@ -86,13 +114,13 @@
       </details>
 
       <details class="interactive-dropdown glass-card">
-        <summary><span class="arrow">▶</span> Security Researcher | Bug Bounty <span class="date">Sep 2023 - Present</span></summary>
+        <summary><span class="arrow">▶</span><span class="job-title">Security Researcher | Bug Bounty</span><span class="date">Sep 2023 – Present</span></summary>
         <div class="content markdown">
           <ul>
             <li>Identified and reported vulnerabilities across platforms like HackerOne, Bugcrowd, Intigriti, and self-hosted programs.</li>
-            <li>Submitted valid findings on LinkedIn, NASA (National Aeronautics and Space Administration), and many more.</li>
+            <li>Submitted valid findings on LinkedIn, NASA, and many more.</li>
             <li>Selected as a Private Invitee on some programs.</li>
-            <li>Actively engaged in identifying authentication flaws, session management weaknesses, RCE, and business logic vulnerabilities in real-world applications.</li>
+            <li>Actively engaged in identifying authentication flaws, session management weaknesses, RCE, and business logic vulnerabilities.</li>
             <li>Communicated findings through detailed technical reports, reproducible attack scenarios, and impact analysis.</li>
           </ul>
           <div class="tags"><span>Bug Bounty</span><span>Ethical Hacking</span><span>OWASP</span></div>
@@ -100,100 +128,114 @@
       </details>
 
       <details class="interactive-dropdown glass-card">
-        <summary><span class="arrow">▶</span> Ethical Hacker | Hack The Box <span class="date">Feb 2024 - Present</span></summary>
+        <summary><span class="arrow">▶</span><span class="job-title">Ethical Hacker | Hack The Box</span><span class="date">Feb 2024 – Present</span></summary>
         <div class="content markdown">
           <ul>
             <li>Spent the initial journey mastering web challenges.</li>
             <li>90%+ success rate in identifying misconfigurations and hidden endpoints in lab simulations.</li>
             <li>Achieved Top 0.016% globally.</li>
           </ul>
+          <div class="tags"><span>HTB</span><span>Web Exploitation</span><span>Pentesting</span></div>
         </div>
       </details>
 
       <details class="interactive-dropdown glass-card">
-        <summary><span class="arrow">▶</span> Lead | Researchers Team (Mars VDP) <span class="date">Dec 2025</span></summary>
+        <summary><span class="arrow">▶</span><span class="job-title">Lead | Researchers Team (Mars VDP)</span><span class="date">Dec 2025</span></summary>
         <div class="content markdown">
           <ul>
             <li>Collaborated with security researchers from different servers and performed security assessment on a VDP.</li>
             <li>Directed the team on a temporary targeted project, holding meetings and documenting findings.</li>
-            <li>Successfully identified bugs on Mars Vulnerability Disclosure Program and concluded the project after achieving objectives.</li>
+            <li>Successfully identified bugs on Mars Vulnerability Disclosure Program.</li>
           </ul>
+          <div class="tags"><span>Team Lead</span><span>VDP</span></div>
         </div>
       </details>
 
       <details class="interactive-dropdown glass-card">
-        <summary><span class="arrow">▶</span> Secretary General | Southwestern State College <span class="date">Apr 2025 - Apr 2026</span></summary>
+        <summary><span class="arrow">▶</span><span class="job-title">Secretary General | Southwestern State College</span><span class="date">Apr 2025 – Apr 2026</span></summary>
         <div class="content markdown">
           <ul>
             <li>General secretary of the IT club. Built and launched two major websites for college activities.</li>
             <li>Organized a Quiz competition with a web interface and a questionnaire bot.</li>
             <li>Hosted an E-Sports event, managing resources and budget evaluation.</li>
           </ul>
+          <div class="tags"><span>Leadership</span><span>Web Dev</span></div>
         </div>
       </details>
 
       <details class="interactive-dropdown glass-card">
-        <summary><span class="arrow">▶</span> Video Streamer | The YouTube Channel</summary>
+        <summary><span class="arrow">▶</span><span class="job-title">Video Streamer | YouTube Channel</span><span class="date">Ongoing</span></summary>
         <div class="content markdown">
           <ul>
             <li>Producing technical walkthroughs and vulnerability research tutorials to educate the cyber space on ethical hacking methodologies.</li>
           </ul>
+          <div class="tags"><span>Content Creation</span><span>Education</span></div>
         </div>
       </details>
     </section>
 
+    <!-- PROJECTS -->
     <section class="section reveal" data-term="grep -r 'payload' ./projects/">
       <div class="section-header">
         <i class="fa-solid fa-code-branch"></i> <h3>Projects & Repositories</h3>
       </div>
-
       <div class="grid">
         <a href="https://github.com/Friendly-user0/Web-Hacking/blob/main/AI_Hacking.md" target="_blank" class="repo-card glass-card">
           <h4><i class="fa-solid fa-robot"></i> AI Hacking Overview</h4>
           <p>Extensive research and attack vectors regarding Artificial Intelligence and LLM exploitation.</p>
+          <span class="card-arrow">→</span>
         </a>
-
         <a href="https://github.com/Friendly-user0/Web-Hacking/blob/main/Recon.md" target="_blank" class="repo-card glass-card">
           <h4><i class="fa-solid fa-satellite-dish"></i> Advanced Recon Methodology</h4>
           <p>One of the best structured reconnaissance methodologies for identifying targets.</p>
+          <span class="card-arrow">→</span>
         </a>
-
         <a href="https://github.com/Friendly-user0/Tools/blob/main/The_hunt_01.sh" target="_blank" class="repo-card glass-card">
           <h4><i class="fa-solid fa-laptop-code"></i> The_Hunt_01.sh</h4>
           <p>A flagship custom tool built for automation and advanced security workflows.</p>
+          <span class="card-arrow">→</span>
         </a>
-
         <a href="https://github.com/Friendly-user0/Python/tree/main/Tools" target="_blank" class="repo-card glass-card">
           <h4><i class="fa-solid fa-screwdriver-wrench"></i> Custom Python Tools</h4>
           <p>Scripts for IP-based rate limiting bypasses, API key rotation, reconnaissance, and post-exploitation.</p>
+          <span class="card-arrow">→</span>
         </a>
       </div>
     </section>
 
+    <!-- WRITEUPS -->
     <section class="section reveal" data-term="accessing writeups database...">
       <div class="section-header">
         <i class="fa-solid fa-book-open-reader"></i> <h3>Writeups & Documentation</h3>
       </div>
       <div class="links-grid">
-        <a href="https://github.com/Friendly-user0/Writeups/tree/main/HacktheBox" target="_blank" class="glass-btn">HTB Writeups</a>
-        <a href="https://github.com/Friendly-user0/Writeups/tree/main/TryHackME" target="_blank" class="glass-btn">THM Writeups</a>
-        <a href="https://github.com/Friendly-user0/Web-Hacking" target="_blank" class="glass-btn">Web Hacking Notes</a>
-        <a href="https://github.com/Friendly-user0/Python/tree/main/Beginner_Projects" target="_blank" class="glass-btn">Beginner Python Projects</a>
+        <a href="https://github.com/Friendly-user0/Writeups/tree/main/HacktheBox" target="_blank" class="glass-btn">
+          <i class="fa-solid fa-box"></i> HTB Writeups
+        </a>
+        <a href="https://github.com/Friendly-user0/Writeups/tree/main/TryHackME" target="_blank" class="glass-btn">
+          <i class="fa-solid fa-flag"></i> THM Writeups
+        </a>
+        <a href="https://github.com/Friendly-user0/Web-Hacking" target="_blank" class="glass-btn">
+          <i class="fa-solid fa-globe"></i> Web Hacking Notes
+        </a>
+        <a href="https://github.com/Friendly-user0/Python/tree/main/Beginner_Projects" target="_blank" class="glass-btn">
+          <i class="fa-brands fa-python"></i> Python Projects
+        </a>
       </div>
     </section>
 
+    <!-- EDUCATION & CERTIFICATES -->
     <section class="section reveal" data-term="verifying credentials...">
       <div class="grid dual-grid">
         <div class="glass-card">
           <div class="section-header"><i class="fa-solid fa-graduation-cap"></i> <h3>Education</h3></div>
           <div class="markdown">
             <ul>
-              <li><b>Southwestern State College</b> - High School Final Year (Waiting results) | First Year: 3.7 GPA</li>
-              <li><b>Gyanmandir Secondary English School</b> - SLC: 3.76 GPA | BLE: 3.45 GPA</li>
+              <li><b>Southwestern State College</b> — High School Final Year (Waiting results) | First Year: 3.7 GPA</li>
+              <li><b>Gyanmandir Secondary English School</b> — SLC: 3.76 GPA | BLE: 3.45 GPA</li>
             </ul>
           </div>
         </div>
-
         <div class="glass-card">
           <div class="section-header"><i class="fa-solid fa-award"></i> <h3>Certificates & Details</h3></div>
           <div class="markdown">
@@ -209,7 +251,8 @@
     </section>
 
     <footer class="reveal glass-panel">
-      <p>© 2026 Nischal Bahadur Thapa | Designed for the shadows.</p>
+      <p class="footer-text">© 2026 Nischal Bahadur Thapa</p>
+      <p class="footer-sub">Designed for the shadows.</p>
     </footer>
 
   </main>
