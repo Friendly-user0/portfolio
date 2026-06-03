@@ -1,17 +1,14 @@
-// Safely wait for the DOM to fully build before injecting anything
 document.addEventListener("DOMContentLoaded", () => {
 
   // --- SCROLL REVEAL ANIMATION ---
   const items = document.querySelectorAll(".reveal");
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add("active");
-      }
+      if (e.isIntersecting) e.target.classList.add("active");
     });
   }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
   items.forEach((el) => observer.observe(el));
+
 
   // --- HIGH-END LIQUID CURSOR LOGIC ---
   const cursorDot = document.getElementById("cursor-dot");
@@ -54,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+
   // --- TERMINAL MICRO-INTERACTIONS ---
   const termText = document.getElementById("term-text");
   let isHovering = false;
@@ -87,92 +85,89 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ==========================================
-  // DYNAMIC ALIVE ORB BACKGROUND 
-  // ==========================================
-  const orbContainer = document.getElementById("orb-container");
-  
-  if (!orbContainer) {
-    console.error("Orb container not found! HTML structure might be broken.");
-    return; // Fast fail if DOM is missing
-  }
 
+  // ==========================================
+  // ULTIMATE GPU CANVAS BACKGROUND
+  // ==========================================
+  const canvas = document.getElementById("bg-canvas");
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext("2d");
+  let w, h;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  const particles = [];
+  
+  // Premium RGB colors for seamless blending
   const colors = [
-    "rgba(124, 58, 237, 0.7)",   // vivid purple
-    "rgba(37, 99, 235, 0.7)",    // bright blue
-    "rgba(6, 182, 212, 0.6)",    // vivid cyan
-    "rgba(168, 85, 247, 0.6)"    // violet
+    "124, 58, 237", // Vivid Purple
+    "6, 182, 212",  // Cyan
+    "37, 99, 235",  // Deep Blue
+    "168, 85, 247"  // Bright Violet
   ];
 
-  const orbs = [];
-  const ORB_COUNT = 7; // Number of floating blobs
-
-  function createOrb(index) {
-    const orb = document.createElement("div");
-    orb.className = "orb";
-
-    // Random size between 250px and 550px for deep contrast
-    const size = Math.random() * 300 + 250;
-    orb.style.width = size + "px";
-    orb.style.height = size + "px";
-
-    // Cycle through colors
-    orb.style.background = colors[index % colors.length];
-
-    // Random starting position (in percentages)
-    const startX = Math.random() * 100;
-    const startY = Math.random() * 100;
-    
-    orb.style.left = startX + "%";
-    orb.style.top = startY + "%";
-
-    // Save state to dataset to prevent CSS string-parsing glitches
-    orb.dataset.x = startX;
-    orb.dataset.y = startY;
-    
-    // Assign soft floating velocity
-    orb.dataset.vx = (Math.random() - 0.5) * 0.18; 
-    orb.dataset.vy = (Math.random() - 0.5) * 0.18;
-
-    orbContainer.appendChild(orb);
-    orbs.push(orb);
-  }
-
-  // Generate the blobs
-  for (let j = 0; j < ORB_COUNT; j++) {
-    createOrb(j);
-  }
-
-  // Frame-by-frame physics loop
-  function animateOrbs() {
-    orbs.forEach((orb) => {
-      let x = parseFloat(orb.dataset.x);
-      let y = parseFloat(orb.dataset.y);
-
-      let vx = parseFloat(orb.dataset.vx);
-      let vy = parseFloat(orb.dataset.vy);
-
-      // Move by velocity
-      x += vx;
-      y += vy;
-
-      // Soft bounce off the invisible bounds (-20% to 120% so they can drift slightly off-screen)
-      if (x < -20 || x > 120) orb.dataset.vx = vx * -1;
-      if (y < -20 || y > 120) orb.dataset.vy = vy * -1;
-
-      // Update stored coordinates
-      orb.dataset.x = x;
-      orb.dataset.y = y;
-
-      // Apply to DOM
-      orb.style.left = x + "%";
-      orb.style.top = y + "%";
+  // Generate 45 mixed-size particles (some huge ambient, some smaller drifters)
+  for (let i = 0; i < 45; i++) {
+    let color = colors[Math.floor(Math.random() * colors.length)];
+    let radius = Math.random() * 200 + 80;
+    particles.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: radius,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      color: color,
+      // Larger particles move more heavily on parallax
+      parallaxDepth: radius / 150 
     });
-
-    requestAnimationFrame(animateOrbs);
   }
 
-  // Ignite the background engine
-  animateOrbs();
+  function animateCanvas() {
+    ctx.clearRect(0, 0, w, h);
+    
+    // Magical 'screen' blending: overlapping colors become pure, bright light
+    ctx.globalCompositeOperation = 'screen';
+
+    // Calculate mouse parallax offset relative to center of screen
+    let mouseOffsetX = (mouse.x - w / 2) * 0.05;
+    let mouseOffsetY = (mouse.y - h / 2) * 0.05;
+
+    for (let p of particles) {
+      // Natural drifting physics
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Wrap around screen seamlessly (with padding so they don't pop in/out abruptly)
+      if (p.x < -p.r * 2) p.x = w + p.r * 2;
+      if (p.x > w + p.r * 2) p.x = -p.r * 2;
+      if (p.y < -p.r * 2) p.y = h + p.r * 2;
+      if (p.y > h + p.r * 2) p.y = -p.r * 2;
+
+      // Apply subtle mouse depth tracking
+      let drawX = p.x - (mouseOffsetX * p.parallaxDepth);
+      let drawY = p.y - (mouseOffsetY * p.parallaxDepth);
+
+      // Draw the glowing orb
+      const grad = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.r);
+      grad.addColorStop(0, `rgba(${p.color}, 0.6)`);
+      grad.addColorStop(1, `rgba(${p.color}, 0)`);
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(drawX, drawY, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    requestAnimationFrame(animateCanvas);
+  }
+
+  // Ignite the canvas
+  animateCanvas();
 
 });

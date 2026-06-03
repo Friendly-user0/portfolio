@@ -6,7 +6,7 @@
   cursor: none; 
 }
 
-/* SAFETY FIX: Hard lock the html/body height so fixed positioning is bulletproof */
+/* Bulletproof dimensional tracking for fixed elements */
 html, body {
   width: 100%;
   height: 100%;
@@ -69,48 +69,35 @@ body {
 }
 
 /* =======================================
-   BULLETPROOF BACKGROUND SYSTEM
+   BULLETPROOF CANVAS BACKGROUND
 ======================================= */
 .bg {
   position: fixed;
   inset: 0;
-  z-index: -10; /* Sent far to the back */
+  z-index: -10;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: radial-gradient(circle at top center, #0b1020, #030408 80%);
+  background: radial-gradient(circle at top, #0b1020, #030408);
   pointer-events: none;
 }
 
-#orb-container {
+#bg-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Adds a beautiful cinematic grain over the canvas light physics */
+.noise-overlay {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 1; /* Inside .bg layer */
-}
-
-/* JS injected orbs */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  /* Ensure visibility: normal blending, high opacity, soft blur */
-  mix-blend-mode: normal;
-  opacity: 0.65;
-  filter: blur(60px);
-  will-change: left, top; 
-  pointer-events: none;
-}
-
-/* Texture layer sitting OVER the orbs but UNDER the content */
-.glass-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 2; /* Sits above orbs */
   background-image: url("https://www.transparenttextures.com/patterns/noise.png");
-  opacity: 0.04;
+  opacity: 0.05;
   pointer-events: none;
-  /* CRITICAL: No backdrop-filter here, otherwise it hides the orbs! */
+  z-index: 1; /* Sits immediately over the canvas */
 }
 
 /* --- TERMINAL FEED --- */
@@ -130,7 +117,7 @@ body {
 /* --- MAIN CONTENT LAYOUT --- */
 .container { 
   position: relative; 
-  z-index: 10; /* Guaranteed to sit above background */
+  z-index: 10; 
   max-width: 1000px; 
   margin: 0 auto; 
   padding: 0 20px 80px 20px; 
@@ -182,13 +169,12 @@ h1 { font-size: 2.8rem; font-weight: 600; letter-spacing: -1px; margin-bottom: 5
 .section-header h3 { font-size: 1.4rem; font-weight: 600; color: #fff; }
 .section-header i { color: var(--accent-purple); font-size: 18px; }
 
-/* The cards handle the frost effect locally! */
 .glass-panel, .glass-card {
   background: var(--card-bg); 
   border: 1px solid var(--card-border);
   border-radius: 12px; 
   padding: 25px;
-  backdrop-filter: blur(14px); /* Frosts the moving orbs passing beneath */
+  backdrop-filter: blur(14px); /* Instantly frosts over the canvas lights beneath it */
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
