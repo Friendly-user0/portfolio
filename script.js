@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ==========================================
-  // MOUSE STATE (shared across systems)
+  // MOUSE STATE
   // ==========================================
   let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
@@ -21,6 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
   });
+
+  // Touch support for mobile
+  window.addEventListener("touchmove", (e) => {
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+  }, { passive: true });
 
 
   // ==========================================
@@ -33,15 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let dotPos     = { x: mouse.x, y: mouse.y };
   let outlinePos = { x: mouse.x, y: mouse.y };
 
-  // Inertia speeds: dot snaps fast, outline lags behind
   const SPEED_DOT     = 0.85;
   const SPEED_OUTLINE = 0.13;
-
-  // Magnetic pull radius & strength
   const MAGNET_RADIUS   = 90;
   const MAGNET_STRENGTH = 0.32;
 
-  // Find all magnetic targets
   const magnetTargets = document.querySelectorAll(
     "a, summary, .stat-card, .repo-card, .glass-btn, .social-link, .pfp"
   );
@@ -49,83 +51,60 @@ document.addEventListener("DOMContentLoaded", () => {
   function getClosestMagnet() {
     let closest = null;
     let minDist = MAGNET_RADIUS;
-
     magnetTargets.forEach((el) => {
       const rect = el.getBoundingClientRect();
       const cx   = rect.left + rect.width  / 2;
       const cy   = rect.top  + rect.height / 2;
       const dist = Math.hypot(mouse.x - cx, mouse.y - cy);
-
-      if (dist < minDist) {
-        minDist  = dist;
-        closest  = { cx, cy, dist };
-      }
+      if (dist < minDist) { minDist = dist; closest = { cx, cy, dist }; }
     });
-
     return closest;
   }
 
   function renderCursor() {
-    // --- DOT: fast snap ---
     dotPos.x += (mouse.x - dotPos.x) * SPEED_DOT;
     dotPos.y += (mouse.y - dotPos.y) * SPEED_DOT;
 
-    // --- OUTLINE: lagging inertia + optional magnetic pull ---
     const magnet = getClosestMagnet();
     let targetX = mouse.x;
     let targetY = mouse.y;
-
     if (magnet) {
-      const pull   = 1 - magnet.dist / MAGNET_RADIUS;
-      targetX     += (magnet.cx - mouse.x) * pull * MAGNET_STRENGTH;
-      targetY     += (magnet.cy - mouse.y) * pull * MAGNET_STRENGTH;
+      const pull = 1 - magnet.dist / MAGNET_RADIUS;
+      targetX += (magnet.cx - mouse.x) * pull * MAGNET_STRENGTH;
+      targetY += (magnet.cy - mouse.y) * pull * MAGNET_STRENGTH;
     }
-
     outlinePos.x += (targetX - outlinePos.x) * SPEED_OUTLINE;
     outlinePos.y += (targetY - outlinePos.y) * SPEED_OUTLINE;
 
-    if (cursorDot) {
-      cursorDot.style.transform =
-        `translate3d(calc(${dotPos.x}px - 50%), calc(${dotPos.y}px - 50%), 0)`;
-    }
-
-    if (cursorOutline) {
-      cursorOutline.style.transform =
-        `translate3d(calc(${outlinePos.x}px - 50%), calc(${outlinePos.y}px - 50%), 0)`;
-    }
+    if (cursorDot)
+      cursorDot.style.transform = `translate3d(calc(${dotPos.x}px - 50%), calc(${dotPos.y}px - 50%), 0)`;
+    if (cursorOutline)
+      cursorOutline.style.transform = `translate3d(calc(${outlinePos.x}px - 50%), calc(${outlinePos.y}px - 50%), 0)`;
 
     requestAnimationFrame(renderCursor);
   }
   requestAnimationFrame(renderCursor);
 
-  // Hover state for outline
   magnetTargets.forEach((el) => {
-    el.addEventListener("mouseenter", () => {
-      if (cursorOutline) cursorOutline.classList.add("cursor-hover");
-    });
-    el.addEventListener("mouseleave", () => {
-      if (cursorOutline) cursorOutline.classList.remove("cursor-hover");
-    });
+    el.addEventListener("mouseenter", () => { if (cursorOutline) cursorOutline.classList.add("cursor-hover"); });
+    el.addEventListener("mouseleave", () => { if (cursorOutline) cursorOutline.classList.remove("cursor-hover"); });
   });
 
-  // Click ripple burst
   document.addEventListener("click", (e) => {
     if (!cursorRipple) return;
     cursorRipple.style.left = `${e.clientX}px`;
     cursorRipple.style.top  = `${e.clientY}px`;
     cursorRipple.classList.remove("burst");
-    // Force reflow so animation re-triggers
     void cursorRipple.offsetWidth;
     cursorRipple.classList.add("burst");
   });
 
 
   // ==========================================
-  // TERMINAL MICRO-INTERACTIONS
+  // TERMINAL
   // ==========================================
   const termText = document.getElementById("term-text");
   let isHovering = false;
-
   const defaultLines = [
     "monitoring network traffic...",
     "scanning for open ports...",
@@ -135,17 +114,13 @@ document.addEventListener("DOMContentLoaded", () => {
     "enumerating subdomains...",
     "waiting for input..."
   ];
-
   let lineIdx = 0;
-
-  function cycleDefault() {
+  setInterval(() => {
     if (!isHovering && termText) {
       termText.innerText = defaultLines[lineIdx % defaultLines.length];
       lineIdx++;
     }
-  }
-
-  setInterval(cycleDefault, 3200);
+  }, 3200);
 
   document.querySelectorAll("[data-term]").forEach((el) => {
     el.addEventListener("mouseenter", (e) => {
@@ -164,20 +139,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   const pfpMagnetic = document.getElementById("pfp-magnetic");
   const pfpImg      = pfpMagnetic?.querySelector(".pfp");
-
   if (pfpMagnetic && pfpImg) {
     document.addEventListener("mousemove", (e) => {
-      const rect  = pfpMagnetic.getBoundingClientRect();
-      const cx    = rect.left + rect.width  / 2;
-      const cy    = rect.top  + rect.height / 2;
-      const dx    = (e.clientX - cx) / (rect.width  / 2);
-      const dy    = (e.clientY - cy) / (rect.height / 2);
-      const dist  = Math.hypot(dx, dy);
-
-      if (dist < 3) {
-        const rotY =  dx * 8;
-        const rotX = -dy * 8;
-        pfpImg.style.transform = `perspective(500px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.04)`;
+      const rect = pfpMagnetic.getBoundingClientRect();
+      const cx   = rect.left + rect.width  / 2;
+      const cy   = rect.top  + rect.height / 2;
+      const dx   = (e.clientX - cx) / (rect.width  / 2);
+      const dy   = (e.clientY - cy) / (rect.height / 2);
+      if (Math.hypot(dx, dy) < 3) {
+        pfpImg.style.transform = `perspective(500px) rotateX(${-dy * 8}deg) rotateY(${dx * 8}deg) scale(1.04)`;
       } else {
         pfpImg.style.transform = "";
       }
@@ -186,14 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ==========================================
-  // ADAPTIVE GLOW — Canvas orbs near mouse glow brighter
-  // ==========================================
-  // (handled inside canvas loop via proximity calc)
-
-
-  // ==========================================
-  // CANVAS BACKGROUND — Full upgrade
-  // Flow field + Hybrid particles + Global drift
+  // CANVAS BACKGROUND
+  // THE FIX: source-over blend mode + high intensities
+  // so particles are fully visible on all devices
   // ==========================================
   const canvas = document.getElementById("bg-canvas");
   if (!canvas) return;
@@ -205,167 +170,139 @@ document.addEventListener("DOMContentLoaded", () => {
     w = canvas.width  = window.innerWidth;
     h = canvas.height = window.innerHeight;
   }
-
   window.addEventListener("resize", resize);
   resize();
 
-  // ---- COLOR PALETTE ----
+  // Rich palette — vivid enough to show through source-over
   const COLORS = [
-    "124, 58, 237",   // vivid purple
-    "6,  182, 212",   // cyan
-    "37,  99, 235",   // deep blue
-    "168,  85, 247",  // bright violet
-    "99,  102, 241",  // indigo
-    "20,  184, 166",  // teal accent
+    { r: 124, g: 58,  b: 237 },  // vivid purple
+    { r: 6,   g: 182, b: 212 },  // cyan
+    { r: 37,  g: 99,  b: 235 },  // deep blue
+    { r: 168, g: 85,  b: 247 },  // bright violet
+    { r: 99,  g: 102, b: 241 },  // indigo
+    { r: 20,  g: 184, b: 166 },  // teal
   ];
 
-  // ---- GLOBAL DRIFT ----
-  // Slow shared drift applied to all particles for cohesion
   const globalDrift = { x: 0, y: 0, vx: 0, vy: 0 };
 
-  // ---- FLOW FIELD FUNCTION ----
-  // Returns an angle based on spatial position + time
-  // Creates smooth organic "current" in 2D space
+  // Flow field — smooth organic currents
   function flowAngle(x, y, t) {
-    const s = Math.sin(x * 0.0025 + t * 0.00045) +
-              Math.cos(y * 0.0020 - t * 0.00038);
-    const c = Math.cos(x * 0.0018 - t * 0.00042) +
-              Math.sin(y * 0.0030 + t * 0.00030);
+    const s = Math.sin(x * 0.0025 + t * 0.00045) + Math.cos(y * 0.0020 - t * 0.00038);
+    const c = Math.cos(x * 0.0018 - t * 0.00042) + Math.sin(y * 0.0030 + t * 0.00030);
     return Math.atan2(s, c);
   }
 
-  // ---- PARTICLE FACTORY ----
-  function createParticle(xOverride, yOverride) {
-    const typeRoll = Math.random();
-    let radius, intensity, speed;
+  function createParticle() {
+    const roll = Math.random();
+    let radius, alpha, speed;
 
-    if (typeRoll < 0.55) {
-      // Crisp smaller orbs — give structure and clarity
-      radius    = Math.random() * 75 + 25;
-      intensity = 0.30 + Math.random() * 0.15;
-      speed     = Math.random() * 0.55 + 0.15;
-    } else if (typeRoll < 0.85) {
-      // Mid-size drifters — depth and volume
-      radius    = Math.random() * 130 + 80;
-      intensity = 0.16 + Math.random() * 0.10;
-      speed     = Math.random() * 0.35 + 0.08;
+    if (roll < 0.45) {
+      // Small crisp orbs — clearly visible, high alpha
+      radius = Math.random() * 80  + 40;
+      alpha  = 0.55 + Math.random() * 0.30;   // 0.55–0.85
+      speed  = Math.random() * 0.6  + 0.2;
+    } else if (roll < 0.80) {
+      // Medium atmospheric orbs
+      radius = Math.random() * 140 + 90;
+      alpha  = 0.30 + Math.random() * 0.20;   // 0.30–0.50
+      speed  = Math.random() * 0.4  + 0.1;
     } else {
-      // Large atmospheric clouds — background ambience
-      radius    = Math.random() * 200 + 140;
-      intensity = 0.07 + Math.random() * 0.07;
-      speed     = Math.random() * 0.20 + 0.04;
+      // Large soft clouds
+      radius = Math.random() * 220 + 160;
+      alpha  = 0.12 + Math.random() * 0.12;   // 0.12–0.24
+      speed  = Math.random() * 0.2  + 0.05;
     }
 
+    const c     = COLORS[Math.floor(Math.random() * COLORS.length)];
     const angle = Math.random() * Math.PI * 2;
 
     return {
-      x:             xOverride !== undefined ? xOverride : Math.random() * w,
-      y:             yOverride !== undefined ? yOverride : Math.random() * h,
+      x:             Math.random() * w,
+      y:             Math.random() * h,
       r:             radius,
       vx:            Math.cos(angle) * speed,
       vy:            Math.sin(angle) * speed,
-      color:         COLORS[Math.floor(Math.random() * COLORS.length)],
-      intensity:     intensity,
-      // Parallax depth: larger = more movement offset per mouse unit
-      parallaxDepth: radius / 160,
-      // Flow field influence: how strongly this particle follows the field
-      flowWeight:    0.015 + Math.random() * 0.025,
-      // Damping: prevents runaway velocity
-      damping:       0.978 + Math.random() * 0.014,
-      // Adaptive glow: proximity to mouse boosts this orb
+      c:             c,
+      alpha:         alpha,
+      parallaxDepth: radius / 180,
+      flowWeight:    0.012 + Math.random() * 0.022,
+      damping:       0.976 + Math.random() * 0.016,
       glowBoost:     0,
     };
   }
 
-  // ---- GENERATE PARTICLE POOL ----
-  const PARTICLE_COUNT = 55;
+  const PARTICLE_COUNT = 60;
   const particles = [];
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push(createParticle());
-  }
+  for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(createParticle());
 
-  // ---- DRAW GRADIENT ORB ----
-  function drawOrb(p, drawX, drawY, intensityOverride) {
-    const eff = intensityOverride !== undefined ? intensityOverride : p.intensity;
-    const grad = ctx.createRadialGradient(
-      drawX, drawY, 0,
-      drawX, drawY, p.r
-    );
-    grad.addColorStop(0,    `rgba(${p.color}, ${Math.min(1, eff)})`);
-    grad.addColorStop(0.35, `rgba(${p.color}, ${Math.min(1, eff * 0.55)})`);
-    grad.addColorStop(1,    `rgba(${p.color}, 0)`);
+  // Draw a single orb using source-over (works on ALL devices/browsers)
+  function drawOrb(p, drawX, drawY, alpha) {
+    const grad = ctx.createRadialGradient(drawX, drawY, 0, drawX, drawY, p.r);
+    const { r, g, b } = p.c;
 
+    grad.addColorStop(0,    `rgba(${r},${g},${b},${Math.min(1, alpha)})`);
+    grad.addColorStop(0.40, `rgba(${r},${g},${b},${Math.min(1, alpha * 0.5)})`);
+    grad.addColorStop(0.75, `rgba(${r},${g},${b},${Math.min(1, alpha * 0.15)})`);
+    grad.addColorStop(1,    `rgba(${r},${g},${b},0)`);
+
+    ctx.save();
+    ctx.globalCompositeOperation = "source-over";  // GUARANTEED visible on all devices
     ctx.fillStyle = grad;
     ctx.beginPath();
     ctx.arc(drawX, drawY, p.r, 0, Math.PI * 2);
     ctx.fill();
+    ctx.restore();
   }
 
-  // ---- MAIN ANIMATION LOOP ----
   function animateCanvas() {
+    // Clear to transparent — background color comes from CSS .bg-base
     ctx.clearRect(0, 0, w, h);
-
-    // Screen blending: overlapping colors become bright light (cinematic)
-    ctx.globalCompositeOperation = "screen";
 
     const t = performance.now();
 
-    // ---- UPDATE GLOBAL DRIFT ----
-    // Random walk — creates slow cohesive pulse through the whole field
+    // Update global drift
     globalDrift.vx += (Math.random() - 0.5) * 0.018;
     globalDrift.vy += (Math.random() - 0.5) * 0.018;
     globalDrift.vx *= 0.97;
     globalDrift.vy *= 0.97;
-    globalDrift.x  += globalDrift.vx;
-    globalDrift.y  += globalDrift.vy;
+    globalDrift.x  = Math.max(-40, Math.min(40, globalDrift.x + globalDrift.vx));
+    globalDrift.y  = Math.max(-40, Math.min(40, globalDrift.y + globalDrift.vy));
 
-    // Soft clamp so drift doesn't drift to infinity
-    globalDrift.x = Math.max(-35, Math.min(35, globalDrift.x));
-    globalDrift.y = Math.max(-35, Math.min(35, globalDrift.y));
-
-    // ---- MOUSE PARALLAX ----
-    const mouseOffsetX = (mouse.x - w / 2) * 0.045;
-    const mouseOffsetY = (mouse.y - h / 2) * 0.045;
+    const mouseOffsetX = (mouse.x - w / 2) * 0.04;
+    const mouseOffsetY = (mouse.y - h / 2) * 0.04;
 
     for (const p of particles) {
+      // Flow field force
+      const angle = flowAngle(p.x, p.y, t);
+      p.vx += Math.cos(angle) * p.flowWeight;
+      p.vy += Math.sin(angle) * p.flowWeight;
 
-      // ---- FLOW FIELD FORCE ----
-      const angle   = flowAngle(p.x, p.y, t);
-      p.vx         += Math.cos(angle) * p.flowWeight;
-      p.vy         += Math.sin(angle) * p.flowWeight;
-
-      // ---- DAMPING (prevents chaos) ----
+      // Damping
       p.vx *= p.damping;
       p.vy *= p.damping;
 
-      // ---- POSITION UPDATE ----
+      // Move
       p.x += p.vx;
       p.y += p.vy;
 
-      // ---- SEAMLESS WRAPPING ----
+      // Wrap
       const pad = p.r * 2;
-      if (p.x < -pad)  p.x = w + pad;
+      if (p.x < -pad)    p.x = w + pad;
       if (p.x > w + pad) p.x = -pad;
-      if (p.y < -pad)  p.y = h + pad;
+      if (p.y < -pad)    p.y = h + pad;
       if (p.y > h + pad) p.y = -pad;
 
-      // ---- ADAPTIVE GLOW — proximity to mouse ----
-      const dx    = mouse.x - p.x;
-      const dy    = mouse.y - p.y;
-      const dist  = Math.sqrt(dx * dx + dy * dy);
-      const maxD  = 300;
-      const prox  = Math.max(0, 1 - dist / maxD);
-      // Smoothly lerp glow boost toward target
-      p.glowBoost += (prox * 0.6 - p.glowBoost) * 0.08;
+      // Adaptive glow — mouse proximity boosts alpha
+      const dist = Math.hypot(mouse.x - p.x, mouse.y - p.y);
+      const prox = Math.max(0, 1 - dist / 320);
+      p.glowBoost += (prox * 0.5 - p.glowBoost) * 0.07;
 
-      // ---- DRAW POSITION (with parallax + global drift) ----
-      const drawX = p.x - (mouseOffsetX * p.parallaxDepth) + globalDrift.x * 0.4;
-      const drawY = p.y - (mouseOffsetY * p.parallaxDepth) + globalDrift.y * 0.4;
+      const drawX = p.x - mouseOffsetX * p.parallaxDepth + globalDrift.x * 0.35;
+      const drawY = p.y - mouseOffsetY * p.parallaxDepth + globalDrift.y * 0.35;
 
-      // ---- FINAL INTENSITY (base + glow boost) ----
-      const finalIntensity = p.intensity + p.glowBoost * p.intensity * 1.4;
+      const finalAlpha = p.alpha + p.glowBoost;
 
-      drawOrb(p, drawX, drawY, finalIntensity);
+      drawOrb(p, drawX, drawY, finalAlpha);
     }
 
     requestAnimationFrame(animateCanvas);
