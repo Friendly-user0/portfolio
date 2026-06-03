@@ -17,7 +17,7 @@
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-outline" id="cursor-outline"></div>
 
-  <div class="bg-animation">
+  <canvas id="matrix-bg"></canvas>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
@@ -216,9 +216,18 @@
 
   </main>
 
-  <script>
-    // Explicitly initialize Lucide icons right away
-    lucide.createIcons();
-  </script>
+<script>
+  function loadIcons() {
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadIcons);
+
+  // also re-run after small delay (fixes late DOM paint issues)
+  setTimeout(loadIcons, 300);
+</script>
 </body>
 </html>
+	
