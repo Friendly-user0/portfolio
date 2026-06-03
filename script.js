@@ -11,38 +11,51 @@ const observer = new IntersectionObserver((entries) => {
 
 items.forEach((el) => observer.observe(el));
 
-// --- CUSTOM CURSOR LOGIC ---
+
+// --- HIGH TECH ELASTIC SPRING CURSOR LOGIC ---
 const cursorDot = document.getElementById("cursor-dot");
 const cursorOutline = document.getElementById("cursor-outline");
 
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let outlineX = window.innerWidth / 2;
+let outlineY = window.innerHeight / 2;
+
 window.addEventListener("mousemove", (e) => {
-  const posX = e.clientX;
-  const posY = e.clientY;
-
-  cursorDot.style.left = `${posX}px`;
-  cursorDot.style.top = `${posY}px`;
-
-  // Slight delay for the outline trailing effect
-  cursorOutline.animate({
-    left: `${posX}px`,
-    top: `${posY}px`
-  }, { duration: 500, fill: "forwards" });
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  
+  // Instant inner dot tracking
+  cursorDot.style.left = `${mouseX}px`;
+  cursorDot.style.top = `${mouseY}px`;
 });
 
-// Expand cursor on clickable items
-const clickables = document.querySelectorAll("a, summary, .stat-card");
+// Physics loop for smooth elastic lag interpolation (lerp)
+function updateCursorPhysics() {
+  // Elastic ease tracking calculation
+  outlineX += (mouseX - outlineX) * 0.15;
+  outlineY += (mouseY - outlineY) * 0.15;
+
+  cursorOutline.style.left = `${outlineX}px`;
+  cursorOutline.style.top = `${outlineY}px`;
+
+  requestAnimationFrame(updateCursorPhysics);
+}
+requestAnimationFrame(updateCursorPhysics);
+
+// Ultra dynamic interactions on hovering elements
+const clickables = document.querySelectorAll("a, summary, .stat-card, details");
 clickables.forEach((el) => {
   el.addEventListener("mouseenter", () => {
-    cursorOutline.style.width = "50px";
-    cursorOutline.style.height = "50px";
-    cursorOutline.style.borderColor = "#00b4d8"; // blue accent
+    cursorOutline.classList.add("cursor-hover-active");
+    cursorDot.style.background = "#38bdf8"; 
   });
   el.addEventListener("mouseleave", () => {
-    cursorOutline.style.width = "30px";
-    cursorOutline.style.height = "30px";
-    cursorOutline.style.borderColor = "#9d4edd"; // purple accent
+    cursorOutline.classList.remove("cursor-hover-active");
+    cursorDot.style.background = "#00b4d8";
   });
 });
+
 
 // --- TERMINAL MICRO-INTERACTIONS ---
 const termText = document.getElementById("term-text");
@@ -57,26 +70,21 @@ const defaultLines = [
   "waiting for input..."
 ];
 
-let i = 0;
+let lineIndex = 0;
 function cycleDefaultTerminal() {
-  if (!isHovering) {
-    termText.innerText = `user@cyber-nish:~$ ${defaultLines[i % defaultLines.length]}`;
-    i++;
+  if (!isHovering && termText) {
+    termText.innerText = `user@cyber-nish:~$ ${defaultLines[lineIndex % defaultLines.length]}`;
+    lineIndex++;
   }
 }
 
-// Start default cycle
 defaultTermInterval = setInterval(cycleDefaultTerminal, 3000);
 
-// Override terminal text when hovering over sections with data-term
 const termTriggers = document.querySelectorAll("[data-term]");
-
 termTriggers.forEach((el) => {
   el.addEventListener("mouseenter", (e) => {
     isHovering = true;
-    // Typewriter effect for hover
-    const targetText = `user@cyber-nish:~$ ${e.target.getAttribute("data-term")}`;
-    termText.innerText = targetText;
+    termText.innerText = `user@cyber-nish:~$ ${e.target.getAttribute("data-term")}`;
   });
 
   el.addEventListener("mouseleave", () => {
@@ -85,91 +93,90 @@ termTriggers.forEach((el) => {
   });
 });
 
-// ==============================
-// LIVE PARTICLE SYSTEM BACKGROUND
-// ==============================
 
+// ==============================
+// LIVE SKY-BLUE PARTICLE SYSTEM BACKGROUND
+// ==============================
 const canvas = document.getElementById("matrix-bg");
-const ctx = canvas.getContext("2d");
+if (canvas) {
+  const ctx = canvas.getContext("2d");
 
-let w = canvas.width = window.innerWidth;
-let h = canvas.height = window.innerHeight;
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
 
-window.addEventListener("resize", () => {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-});
-
-const particles = [];
-
-const MOUSE = {
-  x: w / 2,
-  y: h / 2
-};
-
-window.addEventListener("mousemove", (e) => {
-  MOUSE.x = e.clientX;
-  MOUSE.y = e.clientY;
-});
-
-// create particles
-for (let i = 0; i < 80; i++) {
-  particles.push({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 0.4,
-    vy: (Math.random() - 0.5) * 0.4,
-    size: Math.random() * 2 + 1
+  window.addEventListener("resize", () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
   });
-}
 
-function draw() {
-  ctx.clearRect(0, 0, w, h);
+  const particles = [];
+  const MOUSE = { x: w / 2, y: h / 2 };
 
-  for (let i = 0; i < particles.length; i++) {
-    let p = particles[i];
+  window.addEventListener("mousemove", (e) => {
+    MOUSE.x = e.clientX;
+    MOUSE.y = e.clientY;
+  });
 
-    // mouse influence field
-    let dx = MOUSE.x - p.x;
-    let dy = MOUSE.y - p.y;
-    let dist = Math.sqrt(dx * dx + dy * dy);
-
-    if (dist < 120) {
-      p.x -= dx * 0.01;
-      p.y -= dy * 0.01;
-    }
-
-    p.x += p.vx;
-    p.y += p.vy;
-
-    if (p.x < 0 || p.x > w) p.vx *= -1;
-    if (p.y < 0 || p.y > h) p.vy *= -1;
-
-    // draw particle
-    ctx.fillStyle = "rgba(122, 162, 255, 0.6)";
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fill();
-
-    // draw connections
-    for (let j = i + 1; j < particles.length; j++) {
-      let p2 = particles[j];
-      let dx2 = p.x - p2.x;
-      let dy2 = p.y - p2.y;
-      let dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-
-      if (dist2 < 120) {
-        ctx.strokeStyle = "rgba(157, 78, 221, 0.08)";
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.stroke();
-      }
-    }
+  for (let i = 0; i < 75; i++) {
+    particles.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      size: Math.random() * 2 + 1
+    });
   }
 
-  requestAnimationFrame(draw);
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    for (let i = 0; i < particles.length; i++) {
+      let p = particles[i];
+
+      let dx = MOUSE.x - p.x;
+      let dy = MOUSE.y - p.y;
+      let dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 130) {
+        p.x -= dx * 0.008;
+        p.y -= dy * 0.008;
+      }
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+
+      // SKY BLUE Particle Fill
+      ctx.fillStyle = "rgba(56, 189, 248, 0.5)";
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        let p2 = particles[j];
+        let dx2 = p.x - p2.x;
+        let dy2 = p.y - p2.y;
+        let dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+        if (dist2 < 110) {
+          // Dynamic interconnected cyber network lines
+          ctx.strokeStyle = "rgba(0, 180, 216, 0.07)";
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
 }
 
-draw();
+// Global safety initializer for icons
+if (window.lucide) {
+  window.lucide.createIcons();
+}

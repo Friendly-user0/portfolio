@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nischal B. Thapa | Security Researcher</title>
   <link rel="icon" href="https://avatars.githubusercontent.com/u/214543684?v=4" />
-  
+
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
 
@@ -17,7 +17,8 @@
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-outline" id="cursor-outline"></div>
 
-  <canvas id="matrix-bg"></canvas>
+  <div class="bg-animation">
+    <canvas id="matrix-bg"></canvas>
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
@@ -30,13 +31,13 @@
   </div>
 
   <main class="container">
-    
+
     <header class="hero reveal" data-term="evaluating host... identifying target... cyber-nish loaded.">
       <div class="pfp-container">
         <img class="pfp" src="https://media.licdn.com/dms/image/v2/D5616AQEj8tWX729m-Q/profile-displaybackgroundimage-shrink_350_1400/B56Z4BZz9sJwAU-/0/1778140004464?e=1782345600&v=beta&t=xyL-Xectc-IETuAMvkS8on1tOLda8G5Iiyo2XtYshgg" alt="Nischal Bahadur Thapa" />
         <div class="pfp-glow"></div>
       </div>
-      
+
       <h1>Nischal Bahadur Thapa</h1>
       <h2 class="role">Independent Security Researcher</h2>
       <p class="sub">Vulnerability Research | AI Security | Malware Analysis | OSINT</p>
@@ -62,7 +63,7 @@
         <i data-lucide="user"></i> <h3>Objective & Overview</h3>
       </div>
       <p class="text-block">
-        Independent Researcher and Technical Analyst with experience in vulnerability research, technical analysis, OSINT, development, and security-focused automation. Skilled in vulnerability assessment, technical investigation, and building adaptable solutions across modern IT environments. 
+        Independent Researcher and Technical Analyst with experience in vulnerability research, technical analysis, OSINT, development, and security-focused automation. Skilled in vulnerability assessment, technical investigation, and building adaptable solutions across modern IT environments.
         <br><br>
         <span class="highlight">"With a proven track record in vulnerability research, I am currently deepening my expertise in AI security and malware development, with a focus on automating and enhancing threat detection through artificial intelligence to stop cybercrime from spreading."</span>
       </p>
@@ -148,7 +149,7 @@
       <div class="section-header">
         <i data-lucide="folder-git-2"></i> <h3>Projects & Repositories</h3>
       </div>
-      
+
       <div class="grid">
         <a href="https://github.com/Friendly-user0/Web-Hacking/blob/main/AI_Hacking.md" target="_blank" class="repo-card glass-card">
           <h4><i data-lucide="bot"></i> AI Hacking Overview</h4>
@@ -216,18 +217,16 @@
 
   </main>
 
-<script>
-  function loadIcons() {
-    if (window.lucide) {
-      lucide.createIcons();
+  <script>
+    function initializeIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
     }
-  }
-
-  document.addEventListener("DOMContentLoaded", loadIcons);
-
-  // also re-run after small delay (fixes late DOM paint issues)
-  setTimeout(loadIcons, 300);
-</script>
+    window.addEventListener('DOMContentLoaded', initializeIcons);
+    window.addEventListener('load', initializeIcons);
+    setTimeout(initializeIcons, 150);
+    setTimeout(initializeIcons, 600);
+  </script>
 </body>
 </html>
-	
