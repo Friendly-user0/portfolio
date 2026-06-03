@@ -12,26 +12,15 @@
 </head>
 <body>
 
-  <!-- CUSTOM CURSOR -->
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-outline" id="cursor-outline"></div>
   <div class="cursor-ripple" id="cursor-ripple"></div>
 
-  <!-- LAYERED BACKGROUND SYSTEM -->
   <div class="bg">
-    <!-- Layer 0: Base gradient foundation (never black) -->
-    <div class="bg-base"></div>
-    <!-- Layer 1: Ambient luminous fog (kills dead black zones) -->
-    <div class="ambient-fog"></div>
-    <!-- Layer 2: Canvas particle field -->
     <canvas id="bg-canvas"></canvas>
-    <!-- Layer 3: Cinematic grain -->
     <div class="noise-overlay"></div>
-    <!-- Layer 4: Scanline micro-texture -->
-    <div class="scanlines"></div>
   </div>
 
-  <!-- TERMINAL FEED -->
   <div class="terminal" id="terminal">
     <span class="term-prompt">user@cyber-nish:~$</span>
     <span id="term-text">./initialize_profile.sh</span>
@@ -40,7 +29,6 @@
 
   <main class="container">
 
-    <!-- HERO -->
     <header class="hero reveal" data-term="evaluating host... identifying target... cyber-nish loaded.">
       <div class="pfp-container" id="pfp-magnetic">
         <img class="pfp" src="https://media.licdn.com/dms/image/v2/D5616AQEj8tWX729m-Q/profile-displaybackgroundimage-shrink_350_1400/B56Z4BZz9sJwAU-/0/1778140004464?e=1782345600&v=beta&t=xyL-Xectc-IETuAMvkS8on1tOLda8G5Iiyo2XtYshgg" alt="Nischal Bahadur Thapa" />
@@ -51,7 +39,13 @@
 
       <h1>Nischal Bahadur Thapa</h1>
       <h2 class="role"><span class="role-prefix"></span> Independent Security Researcher</h2>
-      <p class="sub">Have I not commanded you? Be strong and courageous. Do not be afraid, do not be discouraged, for the Lord your God will be with you wherever you go.</p>
+      
+      <div class="verse-container">
+        <p class="commanding-verse">
+          "Have I not commanded you? Be strong and courageous. Do not be afraid, do not be discouraged, for the Lord your God will be with you wherever you go."
+        </p>
+        <span class="verse-ref">INITIATE // JOSHUA 1:9</span>
+      </div>
 
       <div class="socials">
         <a href="https://github.com/Friendly-user0" target="_blank" class="social-link" data-term="executing git clone friendly-user0...">
@@ -72,7 +66,6 @@
       </div>
     </header>
 
-    <!-- STATS -->
     <section class="stats reveal" data-term="querying statistics database...">
       <div class="stat-card"><i class="fa-solid fa-crosshair"></i><span>Malware Analysis</span></div>
       <div class="stat-card"><i class="fa-solid fa-shield-virus"></i><span>Researcher</span></div>
@@ -80,7 +73,6 @@
       <div class="stat-card"><i class="fa-solid fa-code"></i><span>Bounty Hunter</span></div>
     </section>
 
-    <!-- OVERVIEW -->
     <section class="section reveal glass-panel" data-term="cat overview.txt">
       <div class="section-header">
         <i class="fa-solid fa-user-secret"></i> <h3>Who could I be?</h3>
@@ -93,7 +85,6 @@
       </blockquote>
     </section>
 
-    <!-- EXPERIENCE -->
     <section class="section reveal" data-term="ls -la /var/log/experience/">
       <div class="section-header">
         <i class="fa-solid fa-briefcase"></i> <h3>Experience</h3>
@@ -134,7 +125,7 @@
             <li>Spent the initial journey mastering web challenges.</li>
             <li>90%+ success rate in identifying misconfigurations and hidden endpoints in lab simulations.</li>
             <li>Achieved Top 0.016% globally.</li>
-	    <li>Responsbile Disclosure of vulnerabilities with 300+ companies.</li>
+            <li>Responsbile Disclosure of vulnerabilities with 300+ companies.</li>
           </ul>
           <div class="tags"><span>HTB</span><span>Web Exploitation</span><span>Pentesting</span><span>OSINT</span></div>
         </div>
@@ -175,7 +166,6 @@
       </details>
     </section>
 
-    <!-- PROJECTS -->
     <section class="section reveal" data-term="grep -r 'payload' ./projects/">
       <div class="section-header">
         <i class="fa-solid fa-code-branch"></i> <h3>Projects & Repositories</h3>
@@ -204,7 +194,6 @@
       </div>
     </section>
 
-    <!-- WRITEUPS -->
     <section class="section reveal" data-term="accessing writeups database...">
       <div class="section-header">
         <i class="fa-solid fa-book-open-reader"></i> <h3>Writeups & Documentation</h3>
@@ -225,16 +214,14 @@
       </div>
     </section>
 
-    <!-- EDUCATION & CERTIFICATES -->
     <section class="section reveal" data-term="verifying credentials...">
       <div class="grid dual-grid">
         <div class="glass-card">
-          <div class="section-header"><i class="fa-solid fa-graduation-cap"></i> <h3>Education</h3></div>
+          <div class="section-header"><i class="fa-solid fa-quote-left"></i> <h3>Weekly Directive</h3></div>
           <div class="markdown">
-            <ul>
-              <li><b>Southwestern State College</b> — High School Final Year (Waiting results) | First Year: 3.7 GPA</li>
-              <li><b>Gyanmandir Secondary English School</b> — SLC: 3.76 GPA | BLE: 3.45 GPA</li>
-            </ul>
+            <blockquote id="weekly-quote" class="highlight" style="margin-top: 0;">
+              Initializing directive...
+            </blockquote>
           </div>
         </div>
         <div class="glass-card">
