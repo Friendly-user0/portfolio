@@ -6,6 +6,12 @@
   cursor: none; 
 }
 
+/* SAFETY FIX: Ensure body height exists for absolute positioning */
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 :root {
   --bg-color: #0b1020;
   --text-main: #e2e8f0;
@@ -70,6 +76,7 @@ body {
   inset: 0;
   z-index: -3;
   overflow: hidden;
+  pointer-events: none; /* SAFETY FIX: prevents intercepting clicks */
   background: radial-gradient(circle at top, #0b1020, #05060a 70%);
 }
 
@@ -84,10 +91,10 @@ body {
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(90px);
-  mix-blend-mode: screen;
+  /* SAFETY FIX: Reduced blur and removed blend mode to ensure visibility */
+  filter: blur(70px); 
+  opacity: 0.45;
   pointer-events: none;
-  /* Signals to browser to hardware accelerate these properties */
   will-change: left, top; 
 }
 
