@@ -95,7 +95,7 @@ body {
 
 
 /* ============================================
-   BULLETPROOF BACKGROUND SYSTEM
+   STABLE BACKGROUND SYSTEM
 ============================================ */
 .bg {
   position: fixed;
@@ -108,7 +108,7 @@ body {
   background: radial-gradient(circle at top, #0b1228 0%, #060912 100%);
 }
 
-#bg-canvas {
+#matrix-bg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -202,7 +202,7 @@ h1 {
 .role { color: var(--accent-cyan); font-size: 1.15rem; font-weight: 400; margin-bottom: 14px; }
 .role-prefix { color: rgba(6, 182, 212, 0.4); font-family: 'Fira Code', monospace; }
 
-/* --- DYNAMIC VERSE MODULE --- */
+/* COMMANDING VERSE MODULE */
 .verse-container {
   margin: 30px auto;
   max-width: 650px;

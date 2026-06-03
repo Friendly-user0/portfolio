@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   items.forEach((el) => observer.observe(el));
 
   // ==========================================
-  // MOUSE STATE
+  // MOUSE ENGINE
   // ==========================================
   let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
   window.addEventListener("mousemove", (e) => {
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================
-  // CURSOR — Inertia + Ripple
+  // CURSOR SYSTEM — Inertia + Ripple Click
   // ==========================================
   const cursorDot     = document.getElementById("cursor-dot");
   const cursorOutline = document.getElementById("cursor-outline");
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================
-  // PROFILE PHOTO — Magnetic tilt
+  // PROFILE PHOTO — Magnetic Tilt
   // ==========================================
   const pfpMagnetic = document.getElementById("pfp-magnetic");
   const pfpImg      = pfpMagnetic?.querySelector(".pfp");
@@ -142,71 +142,83 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // LIGHTWEIGHT, ALIVE CANVAS BACKGROUND
+  // LIVE PARTICLE SYSTEM BACKGROUND
   // ==========================================
-  const canvas = document.getElementById("bg-canvas");
-  if (!canvas) return;
+  const canvas = document.getElementById("matrix-bg");
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
 
-  const ctx = canvas.getContext("2d");
-  let w, h;
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
 
-  function resize() {
-    w = canvas.width  = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  }
-  window.addEventListener("resize", resize);
-  resize();
-
-  const COLORS = [
-    "124, 58, 237",  // purple
-    "6, 182, 212",   // cyan
-    "37, 99, 235",   // blue
-    "168, 85, 247"   // violet
-  ];
-
-  // Keep it lightweight: 20 drifting blobs is enough for an alive, premium feel
-  const PARTICLE_COUNT = 20; 
-  const particles = [];
-
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: Math.random() * 200 + 80,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      opacity: Math.random() * 0.3 + 0.1 
+    window.addEventListener("resize", () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
     });
-  }
 
-  function animateCanvas() {
-    ctx.clearRect(0, 0, w, h);
-    ctx.globalCompositeOperation = "screen";
+    const particles = [];
 
-    for (const p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
-
-      // Wrap-around bounds
-      if (p.x < -p.r) p.x = w + p.r;
-      if (p.x > w + p.r) p.x = -p.r;
-      if (p.y < -p.r) p.y = h + p.r;
-      if (p.y > h + p.r) p.y = -p.r;
-
-      const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-      grad.addColorStop(0, `rgba(${p.color}, ${p.opacity})`);
-      grad.addColorStop(1, `rgba(${p.color}, 0)`);
-
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
+    // Create particles
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        size: Math.random() * 2 + 1
+      });
     }
 
-    requestAnimationFrame(animateCanvas);
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+
+      for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+
+        // Mouse influence field (using the unified 'mouse' global tracking)
+        let dx = mouse.x - p.x;
+        let dy = mouse.y - p.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 120) {
+          p.x -= dx * 0.01;
+          p.y -= dy * 0.01;
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+
+        // Draw particle
+        ctx.fillStyle = "rgba(122, 162, 255, 0.6)";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw connections
+        for (let j = i + 1; j < particles.length; j++) {
+          let p2 = particles[j];
+          let dx2 = p.x - p2.x;
+          let dy2 = p.y - p2.y;
+          let dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+          if (dist2 < 120) {
+            ctx.strokeStyle = "rgba(157, 78, 221, 0.08)";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
   }
-  
-  animateCanvas();
 
 });
