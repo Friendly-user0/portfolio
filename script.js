@@ -11,39 +11,23 @@ const observer = new IntersectionObserver((entries) => {
 
 items.forEach((el) => observer.observe(el));
 
-// --- HIGH-END LIQUID CURSOR & ALIVE BACKGROUND LOGIC ---
+// --- HIGH-END LIQUID CURSOR LOGIC ---
 const cursorDot = document.getElementById("cursor-dot");
 const cursorOutline = document.getElementById("cursor-outline");
-const orbs = document.querySelectorAll(".orb");
 
 let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let dotPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let outlinePos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
-// Target and current variables for mouse parallax coordinates
-let orbTargetX = 0;
-let orbTargetY = 0;
-let orbCurrentX = 0;
-let orbCurrentY = 0;
-
-// High-performance time tracker for float calculations
-let animTime = 0;
-
 window.addEventListener("mousemove", (e) => {
   mouse.x = e.clientX;
   mouse.y = e.clientY;
-  
-  // Calculate relative target for background orbs (mouse influence scale)
-  orbTargetX = (e.clientX / window.innerWidth - 0.5) * 45;
-  orbTargetY = (e.clientY / window.innerHeight - 0.5) * 45;
 });
 
-// Master Physics Loop (Runs seamlessly at max monitor refresh rate)
 const speedOutline = 0.15;
 const speedDot = 0.8;
 
-function renderLoop() {
-  // 1. Cursor Lerp (Linear Interpolation) logic
+function renderCursor() {
   dotPos.x += (mouse.x - dotPos.x) * speedDot;
   dotPos.y += (mouse.y - dotPos.y) * speedDot;
   
@@ -53,32 +37,10 @@ function renderLoop() {
   cursorDot.style.transform = `translate3d(calc(${dotPos.x}px - 50%), calc(${dotPos.y}px - 50%), 0)`;
   cursorOutline.style.transform = `translate3d(calc(${outlinePos.x}px - 50%), calc(${outlinePos.y}px - 50%), 0)`;
 
-  // 2. Continuous Organic Orb Float + Mouse Parallax calculations
-  animTime += 0.004; // Controls the general speed of the floating waves
-  
-  orbCurrentX += (orbTargetX - orbCurrentX) * 0.05; // Smooth mouse transition
-  orbCurrentY += (orbTargetY - orbCurrentY) * 0.05;
-
-  orbs.forEach((orb, i) => {
-    // Unique offset math formulas per orb so they don't move in synchronization
-    const waveX = Math.sin(animTime + i * 2.5) * 50;
-    const waveY = Math.cos(animTime * 0.8 + i * 3.1) * 40;
-    const pulseScale = 1 + Math.sin(animTime * 0.5 + i) * 0.04;
-
-    // Calculate depth multiplier based on orb index
-    const multiplier = (i + 1) * 0.6;
-    const finalX = (orbCurrentX * multiplier) + waveX;
-    const finalY = (orbCurrentY * multiplier) + waveY;
-
-    // Directly update via hardware-accelerated translate3d
-    orb.style.transform = `translate3d(${finalX}px, ${finalY}px, 0) scale(${pulseScale})`;
-  });
-
-  requestAnimationFrame(renderLoop);
+  requestAnimationFrame(renderCursor);
 }
-requestAnimationFrame(renderLoop);
+requestAnimationFrame(renderCursor);
 
-// Hover states for the cursor
 const clickables = document.querySelectorAll("a, summary, .stat-card, .repo-card");
 clickables.forEach((el) => {
   el.addEventListener("mouseenter", () => {
@@ -109,21 +71,96 @@ function cycleDefaultTerminal() {
     i++;
   }
 }
-
-// Start default cycle
 defaultTermInterval = setInterval(cycleDefaultTerminal, 3000);
 
-// Override terminal text when hovering over sections with data-term
 const termTriggers = document.querySelectorAll("[data-term]");
-
 termTriggers.forEach((el) => {
   el.addEventListener("mouseenter", (e) => {
     isHovering = true;
     termText.innerText = `user@cyber-nish:~$ ${e.target.getAttribute("data-term")}`;
   });
-
   el.addEventListener("mouseleave", () => {
     isHovering = false;
     termText.innerText = `user@cyber-nish:~$ returning to background tasks...`;
   });
 });
+
+// ==========================================
+// DYNAMIC ALIVE ORB BACKGROUND (Your Script)
+// ==========================================
+const orbContainer = document.getElementById("orb-container");
+
+const colors = [
+  "rgba(124, 58, 237, 0.6)",   // purple
+  "rgba(37, 99, 235, 0.6)",    // blue
+  "rgba(6, 182, 212, 0.5)",    // cyan
+  "rgba(168, 85, 247, 0.5)"    // violet
+];
+
+const orbs = [];
+
+function createOrb(i) {
+  const orb = document.createElement("div");
+  orb.className = "orb";
+
+  // Size between 200px and 500px for good depth
+  const size = Math.random() * 300 + 200;
+
+  orb.style.width = size + "px";
+  orb.style.height = size + "px";
+
+  orb.style.background = colors[i % colors.length];
+
+  // Set initial position
+  const startX = Math.random() * 100;
+  const startY = Math.random() * 100;
+  orb.style.left = startX + "%";
+  orb.style.top = startY + "%";
+
+  // Store variables in dataset to parse safely
+  orb.dataset.x = startX;
+  orb.dataset.y = startY;
+  
+  // Custom velocity (slightly reduced multiplier so it floats smoothly)
+  orb.dataset.vx = (Math.random() - 0.5) * 0.15; 
+  orb.dataset.vy = (Math.random() - 0.5) * 0.15;
+
+  orbContainer.appendChild(orb);
+  orbs.push(orb);
+}
+
+// create 7 orbs
+for (let j = 0; j < 7; j++) {
+  createOrb(j);
+}
+
+// animation loop
+function animateOrbs() {
+  orbs.forEach((orb) => {
+    let x = parseFloat(orb.dataset.x);
+    let y = parseFloat(orb.dataset.y);
+
+    let vx = parseFloat(orb.dataset.vx);
+    let vy = parseFloat(orb.dataset.vy);
+
+    x += vx;
+    y += vy;
+
+    // soft bounce off the edges (-10% to 110%)
+    if (x < -10 || x > 110) orb.dataset.vx = vx * -1;
+    if (y < -10 || y > 110) orb.dataset.vy = vy * -1;
+
+    // Save updated positions
+    orb.dataset.x = x;
+    orb.dataset.y = y;
+
+    // Apply styles
+    orb.style.left = x + "%";
+    orb.style.top = y + "%";
+  });
+
+  requestAnimationFrame(animateOrbs);
+}
+
+// Start the floating magic
+animateOrbs();
