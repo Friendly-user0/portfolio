@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
 
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Replaced Lucide with FontAwesome for guaranteed icon rendering -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -26,7 +27,7 @@
   <div class="noise"></div>
 
   <div class="terminal" id="terminal">
-    <i data-lucide="terminal" class="term-icon"></i>
+    <i class="fa-solid fa-terminal term-icon"></i>
     <span id="term-text">user@cyber-nish:~$ ./initialize_profile.sh</span>
   </div>
 
@@ -43,24 +44,24 @@
       <p class="sub">Vulnerability Research | AI Security | Malware Analysis | OSINT</p>
 
       <div class="socials">
-        <a href="https://github.com/Friendly-user0" target="_blank" data-term="executing git clone friendly-user0..."><i data-lucide="github"></i></a>
-        <a href="https://www.youtube.com/@shin_bdr" target="_blank" data-term="buffering vulnerability walkthroughs..."><i data-lucide="youtube"></i></a>
-        <a href="https://www.linkedin.com/in/cyber-nish" target="_blank" data-term="establishing secure connection to LinkedIn..."><i data-lucide="linkedin"></i></a>
-        <a href="https://www.instagram.com/shin.cyber/" target="_blank" data-term="mapping social network..."><i data-lucide="instagram"></i></a>
-        <a href="mailto:nishthapa09@gmail.com" data-term="opening smtp relay..."><i data-lucide="mail"></i></a>
+        <a href="https://github.com/Friendly-user0" target="_blank" data-term="executing git clone friendly-user0..."><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.youtube.com/@shin_bdr" target="_blank" data-term="buffering vulnerability walkthroughs..."><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://www.linkedin.com/in/cyber-nish" target="_blank" data-term="establishing secure connection to LinkedIn..."><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://www.instagram.com/shin.cyber/" target="_blank" data-term="mapping social network..."><i class="fa-brands fa-instagram"></i></a>
+        <a href="mailto:nishthapa09@gmail.com" data-term="opening smtp relay..."><i class="fa-solid fa-envelope"></i></a>
       </div>
     </header>
 
     <section class="stats reveal" data-term="querying statistics database...">
-      <div class="stat-card"><i data-lucide="crosshair"></i> <span>Top 0.016% HTB</span></div>
-      <div class="stat-card"><i data-lucide="shield-alert"></i> <span>Bug Bounty Hunter</span></div>
-      <div class="stat-card"><i data-lucide="cpu"></i> <span>AI Security Analyst</span></div>
-      <div class="stat-card"><i data-lucide="code-2"></i> <span>Tool Developer</span></div>
+      <div class="stat-card"><i class="fa-solid fa-crosshair"></i> <span>Top 0.016% HTB</span></div>
+      <div class="stat-card"><i class="fa-solid fa-shield-virus"></i> <span>Bug Bounty Hunter</span></div>
+      <div class="stat-card"><i class="fa-solid fa-microchip"></i> <span>AI Security Analyst</span></div>
+      <div class="stat-card"><i class="fa-solid fa-code"></i> <span>Tool Developer</span></div>
     </section>
 
     <section class="section reveal glass-panel" data-term="cat overview.txt">
       <div class="section-header">
-        <i data-lucide="user"></i> <h3>Objective & Overview</h3>
+        <i class="fa-solid fa-user-secret"></i> <h3>Objective & Overview</h3>
       </div>
       <p class="text-block">
         Independent Researcher and Technical Analyst with experience in vulnerability research, technical analysis, OSINT, development, and security-focused automation. Skilled in vulnerability assessment, technical investigation, and building adaptable solutions across modern IT environments.
@@ -71,7 +72,7 @@
 
     <section class="section reveal" data-term="ls -la /var/log/experience/">
       <div class="section-header">
-        <i data-lucide="briefcase"></i> <h3>Experience</h3>
+        <i class="fa-solid fa-briefcase"></i> <h3>Experience</h3>
       </div>
 
       <details class="interactive-dropdown glass-card">
@@ -147,27 +148,27 @@
 
     <section class="section reveal" data-term="grep -r 'payload' ./projects/">
       <div class="section-header">
-        <i data-lucide="folder-git-2"></i> <h3>Projects & Repositories</h3>
+        <i class="fa-solid fa-code-branch"></i> <h3>Projects & Repositories</h3>
       </div>
 
       <div class="grid">
         <a href="https://github.com/Friendly-user0/Web-Hacking/blob/main/AI_Hacking.md" target="_blank" class="repo-card glass-card">
-          <h4><i data-lucide="bot"></i> AI Hacking Overview</h4>
+          <h4><i class="fa-solid fa-robot"></i> AI Hacking Overview</h4>
           <p>Extensive research and attack vectors regarding Artificial Intelligence and LLM exploitation.</p>
         </a>
 
         <a href="https://github.com/Friendly-user0/Web-Hacking/blob/main/Recon.md" target="_blank" class="repo-card glass-card">
-          <h4><i data-lucide="radar"></i> Advanced Recon Methodology</h4>
+          <h4><i class="fa-solid fa-satellite-dish"></i> Advanced Recon Methodology</h4>
           <p>One of the best structured reconnaissance methodologies for identifying targets.</p>
         </a>
 
         <a href="https://github.com/Friendly-user0/Tools/blob/main/The_hunt_01.sh" target="_blank" class="repo-card glass-card">
-          <h4><i data-lucide="terminal-square"></i> The_Hunt_01.sh</h4>
+          <h4><i class="fa-solid fa-laptop-code"></i> The_Hunt_01.sh</h4>
           <p>A flagship custom tool built for automation and advanced security workflows.</p>
         </a>
 
         <a href="https://github.com/Friendly-user0/Python/tree/main/Tools" target="_blank" class="repo-card glass-card">
-          <h4><i data-lucide="wrench"></i> Custom Python Tools</h4>
+          <h4><i class="fa-solid fa-screwdriver-wrench"></i> Custom Python Tools</h4>
           <p>Scripts for IP-based rate limiting bypasses, API key rotation, reconnaissance, and post-exploitation.</p>
         </a>
       </div>
@@ -175,7 +176,7 @@
 
     <section class="section reveal" data-term="accessing writeups database...">
       <div class="section-header">
-        <i data-lucide="book-open"></i> <h3>Writeups & Documentation</h3>
+        <i class="fa-solid fa-book-open-reader"></i> <h3>Writeups & Documentation</h3>
       </div>
       <div class="links-grid">
         <a href="https://github.com/Friendly-user0/Writeups/tree/main/HacktheBox" target="_blank" class="glass-btn">HTB Writeups</a>
@@ -188,7 +189,7 @@
     <section class="section reveal" data-term="verifying credentials...">
       <div class="grid dual-grid">
         <div class="glass-card">
-          <div class="section-header"><i data-lucide="graduation-cap"></i> <h3>Education</h3></div>
+          <div class="section-header"><i class="fa-solid fa-graduation-cap"></i> <h3>Education</h3></div>
           <div class="markdown">
             <ul>
               <li><b>Southwestern State College</b> - High School Final Year (Waiting results) | First Year: 3.7 GPA</li>
@@ -198,7 +199,7 @@
         </div>
 
         <div class="glass-card">
-          <div class="section-header"><i data-lucide="award"></i> <h3>Certificates & Details</h3></div>
+          <div class="section-header"><i class="fa-solid fa-award"></i> <h3>Certificates & Details</h3></div>
           <div class="markdown">
             <ul>
               <li>CS50 Introduction to Cybersecurity (Cambridge, MA)</li>
@@ -217,16 +218,5 @@
 
   </main>
 
-  <script>
-    function initializeIcons() {
-      if (window.lucide) {
-        window.lucide.createIcons();
-      }
-    }
-    window.addEventListener('DOMContentLoaded', initializeIcons);
-    window.addEventListener('load', initializeIcons);
-    setTimeout(initializeIcons, 150);
-    setTimeout(initializeIcons, 600);
-  </script>
 </body>
 </html>
