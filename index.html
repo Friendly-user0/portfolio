@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Independent Researcher</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nischal | Security Researcher</title>
 
-  <link rel="stylesheet" href="style.css"/>
-  <script defer src="script.js"></script>
+<link rel="stylesheet" href="style.css"/>
+<script defer src="script.js"></script>
 
-  <script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
 
-<div class="bg"></div>
+<canvas id="bgCanvas"></canvas>
 <div class="noise"></div>
 
-<!-- TERMINAL FEED -->
-<div class="terminal" id="terminal">initializing research profile...</div>
+<!-- floating terminal feed -->
+<div class="terminal" id="terminal">booting research interface...</div>
 
 <!-- HERO -->
 <header class="hero reveal">
 
-  <img class="pfp" src="https://media.licdn.com/dms/image/v2/D5616AQEj8tWX729m-Q/profile-displaybackgroundimage-shrink_350_1400/B56Z4BZz9sJwAU-/0/1778140004464?e=1782345600&v=beta&t=xyL-Xectc-IETuAMvkS8on1tOLda8G5Iiyo2XtYshgg"/>
+  <div class="pfp-wrap">
+    <img class="pfp" src="https://media.licdn.com/dms/image/v2/D5616AQEj8tWX729m-Q/profile-displaybackgroundimage-shrink_350_1400/B56Z4BZz9sJwAU-/0/1778140004464?e=1782345600&v=beta&t=xyL-Xectc-IETuAMvkS8on1tOLda8G5Iiyo2XtYshgg"/>
+  </div>
 
   <h1>Nischal Bahadur Thapa</h1>
 
@@ -40,138 +42,131 @@
   </div>
 </header>
 
-<!-- STATS -->
-<section class="stats reveal">
-  <div class="card">Top 0.016% HTB</div>
-  <div class="card">Bug Bounty Researcher</div>
-  <div class="card">AI Security Labs</div>
-  <div class="card">Self Hosted Programs</div>
+<!-- QUICK METRICS -->
+<section class="chips reveal">
+  <span>HTB Top 0.016%</span>
+  <span>Bug Bounty Researcher</span>
+  <span>AI Security Labs</span>
+  <span>Self Hosted VDPs</span>
 </section>
 
-<!-- OBJECTIVE -->
+<!-- ABOUT -->
 <section class="section reveal">
   <h2>Objective</h2>
   <p>
     Independent Researcher and Technical Analyst focused on vulnerability research,
-    OSINT, AI security, and automation across modern environments.
+    OSINT, AI security, automation, and adversarial system analysis.
   </p>
 </section>
 
-<!-- EXPERIENCE -->
+<!-- EXPERIENCE (interactive markdown panels) -->
 <section class="section reveal">
-  <h2>Experience Matrix</h2>
+<h2>Experience Matrix</h2>
 
-  <div class="grid">
+<div class="accordion">
 
-    <div class="card">
-      <h3>Bug Bounty Researcher</h3>
-      <p>
-        HackerOne • Bugcrowd • Integrity • NASA • Private Programs<br><br>
-        Auth flaws • RCE • Session issues • Business logic
-      </p>
+  <div class="acc-item">
+    <button class="acc-btn">Bug Bounty Researcher <span>+</span></button>
+    <div class="acc-body">
+      <ul>
+        <li>HackerOne • Bugcrowd • Integrity • NASA • Private Programs</li>
+        <li>Auth bypass • RCE • session flaws • business logic vulnerabilities</li>
+        <li>Detailed reproducible reports with impact analysis</li>
+      </ul>
     </div>
-
-    <div class="card">
-      <h3>AI Security Research</h3>
-      <p>
-        PortSwigger LLM Labs • Gray Swan Academy • TCM AI Security<br><br>
-        Prompt injection • LLM attack vectors • AI abuse testing
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>Hack The Box</h3>
-      <p>
-        Top 0.016% globally • Web exploitation • Recon mastery
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>Leadership</h3>
-      <p>
-        IT Club Secretary General • Research Team Lead • Project management
-      </p>
-    </div>
-
   </div>
+
+  <div class="acc-item">
+    <button class="acc-btn">AI Security Research <span>+</span></button>
+    <div class="acc-body">
+      <ul>
+        <li>PortSwigger LLM labs (100% completion)</li>
+        <li>Gray Swan Academy research</li>
+        <li>Prompt injection, jailbreak analysis, model abuse testing</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="acc-item">
+    <button class="acc-btn">Hack The Box <span>+</span></button>
+    <div class="acc-body">
+      <ul>
+        <li>Top 0.016% globally</li>
+        <li>Advanced recon + web exploitation</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="acc-item">
+    <button class="acc-btn">Leadership <span>+</span></button>
+    <div class="acc-body">
+      <ul>
+        <li>IT Club Secretary General</li>
+        <li>Research Team Lead (temporary ops)</li>
+        <li>Project coordination + execution</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- LIVE PROJECTS -->
+<section class="section reveal">
+<h2>Live Engineering Work</h2>
+<div id="projects" class="grid"></div>
 </section>
 
 <!-- RESEARCH LINKS -->
 <section class="section reveal">
-  <h2>Research Library</h2>
+<h2>Research Library</h2>
 
-  <div class="grid">
+<div class="grid">
 
-    <a class="card link" href="https://github.com/Friendly-user0/Writeups" target="_blank">
-      HackTheBox & THM Writeups
-    </a>
+  <a class="card link" href="https://github.com/Friendly-user0/Writeups">
+    HTB / THM Writeups
+  </a>
 
-    <a class="card link" href="https://github.com/Friendly-user0/Web-Hacking/blob/main/AI_Hacking.md">
-      AI Security Research
-    </a>
+  <a class="card link" href="https://github.com/Friendly-user0/Web-Hacking/blob/main/AI_Hacking.md">
+    AI Security Research
+  </a>
 
-    <a class="card link" href="https://github.com/Friendly-user0/Web-Hacking/blob/main/Recon.md">
-      Recon Methodology
-    </a>
+  <a class="card link" href="https://github.com/Friendly-user0/Web-Hacking/blob/main/Recon.md">
+    Recon Methodology
+  </a>
 
-    <a class="card link" href="https://github.com/Friendly-user0/Web-Hacking">
-      Web Hacking Notes
-    </a>
+  <a class="card link" href="https://github.com/Friendly-user0/Web-Hacking">
+    Web Hacking Notes
+  </a>
 
-  </div>
+</div>
 </section>
 
-<!-- PROJECTS -->
+<!-- FULL PROFILE -->
 <section class="section reveal">
-  <h2>Engineering Work</h2>
+<h2>Full Profile</h2>
 
-  <div class="grid">
+<div class="card">
+<p>
+With a proven track record in vulnerability research, I am currently deepening expertise in AI security and automation-driven threat detection.
+</p>
 
-    <div class="card">
-      <h3>Python Security Toolkit</h3>
-      <p>Recon scripts • automation • security utilities</p>
-      <a href="https://github.com/Friendly-user0/Python">Open</a>
-    </div>
+<br>
 
-    <div class="card">
-      <h3>Advanced Tools</h3>
-      <p>The Hunt framework • exploitation utilities</p>
-      <a href="https://github.com/Friendly-user0/Tools">Open</a>
-    </div>
+<p><b>AI Research:</b> LLM attacks, prompt injection, automation tools</p>
+<p><b>Bug Bounty:</b> Real-world valid reports across platforms & private VDPs</p>
+<p><b>Leadership:</b> IT Club Secretary, Research Team Lead</p>
+<p><b>Systems:</b> Web exploitation, recon, OSINT, scripting</p>
+</div>
 
-    <div class="card">
-      <h3>AI Research System</h3>
-      <p>Security analysis of AI systems and LLM attack vectors</p>
-    </div>
-
-  </div>
 </section>
 
-<!-- FULL CV SECTION -->
-<section class="section reveal">
-  <h2>Full Profile</h2>
-
-  <div class="card">
-    <p>
-      With a proven track record in vulnerability research, I am currently
-      deepening expertise in AI security and automation-driven threat detection.
-    </p>
-    <br>
-
-    <p><b>Independent Research:</b> AI attack vectors, LLM exploitation, automation</p>
-    <p><b>Bug Bounty:</b> Valid reports across major platforms & private programs</p>
-    <p><b>Leadership:</b> IT Club Secretary, Research Team Lead</p>
-    <p><b>Education:</b> Cybersecurity-focused academic background</p>
-  </div>
-</section>
-
-<!-- FOOTER -->
 <footer class="reveal">
-  <p>© 2026 Nischal Thapa — Security Researcher</p>
+  <p>© 2026 Nischal Thapa — Security Research Terminal</p>
 </footer>
 
 <script>
-  lucide.createIcons();
+lucide.createIcons();
 </script>
 
 </body>
