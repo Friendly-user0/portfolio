@@ -95,14 +95,16 @@ termTriggers.forEach((el) => {
 });
 
 // ==============================
-// LIVE PARTICLE SYSTEM BACKGROUND
+// NEURAL FLOW FIELD BACKGROUND
 // ==============================
+
 const canvas = document.getElementById("matrix-bg");
+
 if (canvas) {
   const ctx = canvas.getContext("2d");
 
-  let w = canvas.width = window.innerWidth;
-  let h = canvas.height = window.innerHeight;
+  let w = (canvas.width = window.innerWidth);
+  let h = (canvas.height = window.innerHeight);
 
   window.addEventListener("resize", () => {
     w = canvas.width = window.innerWidth;
@@ -110,6 +112,8 @@ if (canvas) {
   });
 
   const particles = [];
+  const flow = [];
+
   const MOUSE = { x: w / 2, y: h / 2 };
 
   window.addEventListener("mousemove", (e) => {
@@ -117,63 +121,97 @@ if (canvas) {
     MOUSE.y = e.clientY;
   });
 
-  // create particles
-  for (let i = 0; i < 80; i++) {
+  // create flow field grid
+  const cols = 40;
+  const rows = 25;
+
+  function noise(x, y) {
+    return Math.sin(x * 0.01) + Math.cos(y * 0.01);
+  }
+
+  for (let i = 0; i < cols * rows; i++) {
+    flow.push({
+      angle: Math.random() * Math.PI * 2
+    });
+  }
+
+  // particles
+  for (let i = 0; i < 120; i++) {
     particles.push({
       x: Math.random() * w,
       y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      size: Math.random() * 2 + 1
+      vx: 0,
+      vy: 0,
+      life: Math.random() * 100
     });
   }
 
   function draw() {
-    ctx.clearRect(0, 0, w, h);
+    // soft fade instead of full clear → creates “memory trail”
+    ctx.fillStyle = "rgba(5, 6, 10, 0.15)";
+    ctx.fillRect(0, 0, w, h);
 
     for (let i = 0; i < particles.length; i++) {
       let p = particles[i];
 
-      // mouse influence field
+      // FLOW FIELD INDEX
+      let gx = Math.floor((p.x / w) * cols);
+      let gy = Math.floor((p.y / h) * rows);
+      let index = gx + gy * cols;
+
+      let angle = flow[index]?.angle || 0;
+
+      // subtle mouse distortion
       let dx = MOUSE.x - p.x;
       let dy = MOUSE.y - p.y;
       let dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (dist < 120) {
-        p.x -= dx * 0.01;
-        p.y -= dy * 0.01;
-      }
+      let force = dist < 180 ? (1 - dist / 180) : 0;
+
+      // movement
+      p.vx += Math.cos(angle) * 0.2 + (-dx * 0.0005 * force);
+      p.vy += Math.sin(angle) * 0.2 + (-dy * 0.0005 * force);
+
+      p.vx *= 0.92;
+      p.vy *= 0.92;
 
       p.x += p.vx;
       p.y += p.vy;
 
-      if (p.x < 0 || p.x > w) p.vx *= -1;
-      if (p.y < 0 || p.y > h) p.vy *= -1;
+      // wrap edges
+      if (p.x < 0) p.x = w;
+      if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h;
+      if (p.y > h) p.y = 0;
 
-      // draw particle (Reverted to original colors)
-      ctx.fillStyle = "rgba(122, 162, 255, 0.6)";
+      // draw particle glow
+      ctx.fillStyle = "rgba(122, 162, 255, 0.8)";
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
       ctx.fill();
 
-      // draw connections
-      for (let j = i + 1; j < particles.length; j++) {
-        let p2 = particles[j];
-        let dx2 = p.x - p2.x;
-        let dy2 = p.y - p2.y;
-        let dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+      // occasional connection lines (lighter + rarer = cleaner look)
+      if (i % 6 === 0) {
+        for (let j = i + 1; j < particles.length; j++) {
+          let p2 = particles[j];
+          let dx2 = p.x - p2.x;
+          let dy2 = p.y - p2.y;
+          let d = Math.sqrt(dx2 * dx2 + dy2 * dy2);
 
-        if (dist2 < 120) {
-          ctx.strokeStyle = "rgba(157, 78, 221, 0.08)";
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.stroke();
+          if (d < 90) {
+            ctx.strokeStyle = `rgba(157, 78, 221, ${1 - d / 90})`;
+            ctx.lineWidth = 0.6;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
         }
       }
     }
+
     requestAnimationFrame(draw);
   }
+
   draw();
 }
