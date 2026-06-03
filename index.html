@@ -16,21 +16,15 @@
   <div class="cursor-outline" id="cursor-outline"></div>
   <div class="cursor-ripple" id="cursor-ripple"></div>
 
-  <div class="bg">
-    <canvas id="matrix-bg"></canvas>
-    <div class="noise-overlay"></div>
-  </div>
+  <canvas id="bgCanvas"></canvas>
+  <div class="noise"></div>
 
-  <div class="terminal" id="terminal">
-    <span class="term-prompt">user@cyber-nish:~$</span>
-    <span id="term-text">./initialize_profile.sh</span>
-    <span class="term-cursor">█</span>
-  </div>
+  <div class="terminal" id="terminal">user@cyber-nish:~$ ./initialize_profile.sh</div>
 
   <main class="container">
 
     <header class="hero reveal" data-term="evaluating host... identifying target... cyber-nish loaded.">
-      <div class="pfp-container" id="pfp-magnetic">
+      <div class="pfp-wrap" id="pfp-magnetic">
         <img class="pfp" src="https://media.licdn.com/dms/image/v2/D5616AQEj8tWX729m-Q/profile-displaybackgroundimage-shrink_350_1400/B56Z4BZz9sJwAU-/0/1778140004464?e=1782345600&v=beta&t=xyL-Xectc-IETuAMvkS8on1tOLda8G5Iiyo2XtYshgg" alt="Nischal Bahadur Thapa" />
         <div class="pfp-glow"></div>
         <div class="pfp-ring pfp-ring-1"></div>
@@ -220,7 +214,7 @@
           <div class="section-header"><i class="fa-solid fa-quote-left"></i> <h3>Weekly Directive</h3></div>
           <div class="markdown">
             <blockquote id="weekly-quote" class="highlight" style="margin-top: 0;">
-              Initializing objective directive...
+              Initializing directive...
             </blockquote>
           </div>
         </div>
