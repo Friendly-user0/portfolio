@@ -11,36 +11,39 @@ const observer = new IntersectionObserver((entries) => {
 
 items.forEach((el) => observer.observe(el));
 
-// --- HIGH-END LIQUID CURSOR LOGIC ---
+// --- HIGH-END LIQUID CURSOR & ALIVE BACKGROUND LOGIC ---
 const cursorDot = document.getElementById("cursor-dot");
 const cursorOutline = document.getElementById("cursor-outline");
+const orbs = document.querySelectorAll(".orb");
 
 let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let dotPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let outlinePos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 
-// NEW: Store target coordinates for the background orbs 
+// Target and current variables for mouse parallax coordinates
 let orbTargetX = 0;
 let orbTargetY = 0;
 let orbCurrentX = 0;
 let orbCurrentY = 0;
 
+// High-performance time tracker for float calculations
+let animTime = 0;
+
 window.addEventListener("mousemove", (e) => {
   mouse.x = e.clientX;
   mouse.y = e.clientY;
   
-  // Calculate relative target for background orbs
-  orbTargetX = (e.clientX / window.innerWidth - 0.5) * 30;
-  orbTargetY = (e.clientY / window.innerHeight - 0.5) * 30;
+  // Calculate relative target for background orbs (mouse influence scale)
+  orbTargetX = (e.clientX / window.innerWidth - 0.5) * 45;
+  orbTargetY = (e.clientY / window.innerHeight - 0.5) * 45;
 });
 
-// Master Physics Loop (RequestAnimationFrame)
+// Master Physics Loop (Runs seamlessly at max monitor refresh rate)
 const speedOutline = 0.15;
 const speedDot = 0.8;
-const orbs = document.querySelectorAll(".orb");
 
 function renderLoop() {
-  // 1. Cursor Lerp logic
+  // 1. Cursor Lerp (Linear Interpolation) logic
   dotPos.x += (mouse.x - dotPos.x) * speedDot;
   dotPos.y += (mouse.y - dotPos.y) * speedDot;
   
@@ -50,14 +53,25 @@ function renderLoop() {
   cursorDot.style.transform = `translate3d(calc(${dotPos.x}px - 50%), calc(${dotPos.y}px - 50%), 0)`;
   cursorOutline.style.transform = `translate3d(calc(${outlinePos.x}px - 50%), calc(${outlinePos.y}px - 50%), 0)`;
 
-  // 2. Background Orbs Parallax Lerp Logic (Safe integration with CSS keyframes)
-  orbCurrentX += (orbTargetX - orbCurrentX) * 0.08;
-  orbCurrentY += (orbTargetY - orbCurrentY) * 0.08;
+  // 2. Continuous Organic Orb Float + Mouse Parallax calculations
+  animTime += 0.004; // Controls the general speed of the floating waves
+  
+  orbCurrentX += (orbTargetX - orbCurrentX) * 0.05; // Smooth mouse transition
+  orbCurrentY += (orbTargetY - orbCurrentY) * 0.05;
 
   orbs.forEach((orb, i) => {
-    // Set custom properties instead of overriding the transform property entirely
-    orb.style.setProperty('--mx', `${orbCurrentX * (i + 1) * 0.5}px`);
-    orb.style.setProperty('--my', `${orbCurrentY * (i + 1) * 0.5}px`);
+    // Unique offset math formulas per orb so they don't move in synchronization
+    const waveX = Math.sin(animTime + i * 2.5) * 50;
+    const waveY = Math.cos(animTime * 0.8 + i * 3.1) * 40;
+    const pulseScale = 1 + Math.sin(animTime * 0.5 + i) * 0.04;
+
+    // Calculate depth multiplier based on orb index
+    const multiplier = (i + 1) * 0.6;
+    const finalX = (orbCurrentX * multiplier) + waveX;
+    const finalY = (orbCurrentY * multiplier) + waveY;
+
+    // Directly update via hardware-accelerated translate3d
+    orb.style.transform = `translate3d(${finalX}px, ${finalY}px, 0) scale(${pulseScale})`;
   });
 
   requestAnimationFrame(renderLoop);

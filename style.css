@@ -10,7 +10,6 @@
   --bg-color: #0b1020;
   --text-main: #e2e8f0;
   --text-muted: #94a3b8;
-  /* Updated accents to match new background vibe */
   --accent-purple: #7c3aed; 
   --accent-blue: #06b6d4;   
   --card-bg: rgba(15, 20, 35, 0.4);
@@ -64,7 +63,7 @@ body {
 }
 
 /* =========================
-   NEW BACKGROUND SYSTEM
+   BACKGROUND SYSTEM
 ========================= */
 
 .bg {
@@ -75,14 +74,14 @@ body {
   background: radial-gradient(circle at top, #0b1020, #05060a 70%);
 }
 
-/* soft floating orbs */
+/* Soft floating orbs - transforms handled dynamically by script.js loop */
 .orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
   opacity: 0.55;
-  animation: float 18s infinite ease-in-out alternate;
   mix-blend-mode: screen;
+  will-change: transform; /* Signals the browser to use GPU calculation */
 }
 
 /* ORB COLORS (purple + blue mix) */
@@ -90,39 +89,24 @@ body {
   width: 420px;
   height: 420px;
   background: #7c3aed;
-  top: -10%;
+  top: -5%;
   left: 10%;
-  animation-delay: 0s;
 }
 
 .orb2 {
   width: 500px;
   height: 500px;
   background: #2563eb;
-  bottom: -20%;
-  right: -10%;
-  animation-delay: -6s;
+  bottom: -15%;
+  right: -5%;
 }
 
 .orb3 {
   width: 350px;
   height: 350px;
   background: #06b6d4;
-  top: 40%;
-  left: 60%;
-  animation-delay: -12s;
-}
-
-/* Floating motion dynamically combined with JS parallax variables 
-  (--mx, --my) assigned smoothly via JS loop
-*/
-@keyframes float {
-  0% {
-    transform: translate(var(--mx, 0px), var(--my, 0px)) scale(1);
-  }
-  100% {
-    transform: translate(calc(var(--mx, 0px) + 40px), calc(var(--my, 0px) - 60px)) scale(1.1);
-  }
+  top: 35%;
+  left: 55%;
 }
 
 /* =========================
@@ -144,7 +128,7 @@ body {
   pointer-events: none;
 }
 
-/* subtle noise (VERY IMPORTANT for premium feel) */
+/* subtle premium overlay noise */
 .glass-layer::after {
   content: "";
   position: absolute;
