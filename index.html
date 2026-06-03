@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
 
-  <!-- Replaced Lucide with FontAwesome for guaranteed icon rendering -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -18,13 +17,12 @@
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-outline" id="cursor-outline"></div>
 
-  <div class="bg-animation">
-    <canvas id="matrix-bg"></canvas>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
+  <div class="bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="glass-layer"></div>
   </div>
-  <div class="noise"></div>
 
   <div class="terminal" id="terminal">
     <i class="fa-solid fa-terminal term-icon"></i>
