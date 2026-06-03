@@ -16,15 +16,24 @@
   <div class="cursor-outline" id="cursor-outline"></div>
   <div class="cursor-ripple" id="cursor-ripple"></div>
 
-  <canvas id="bgCanvas"></canvas>
-  <div class="noise"></div>
+  <div class="bg">
+    <div class="bg-base"></div>
+    <div class="ambient-fog"></div>
+    <canvas id="bg-canvas"></canvas>
+    <div class="noise-overlay"></div>
+    <div class="scanlines"></div>
+  </div>
 
-  <div class="terminal" id="terminal">user@cyber-nish:~$ ./initialize_profile.sh</div>
+  <div class="terminal" id="terminal">
+    <span class="term-prompt">user@cyber-nish:~$</span>
+    <span id="term-text">./initialize_profile.sh</span>
+    <span class="term-cursor">█</span>
+  </div>
 
   <main class="container">
 
     <header class="hero reveal" data-term="evaluating host... identifying target... cyber-nish loaded.">
-      <div class="pfp-wrap" id="pfp-magnetic">
+      <div class="pfp-container" id="pfp-magnetic">
         <img class="pfp" src="https://media.licdn.com/dms/image/v2/D5616AQEj8tWX729m-Q/profile-displaybackgroundimage-shrink_350_1400/B56Z4BZz9sJwAU-/0/1778140004464?e=1782345600&v=beta&t=xyL-Xectc-IETuAMvkS8on1tOLda8G5Iiyo2XtYshgg" alt="Nischal Bahadur Thapa" />
         <div class="pfp-glow"></div>
         <div class="pfp-ring pfp-ring-1"></div>
@@ -34,12 +43,11 @@
       <h1>Nischal Bahadur Thapa</h1>
       <h2 class="role"><span class="role-prefix"></span> Independent Security Researcher</h2>
       
-      <div class="verse-container">
-        <p class="commanding-verse">
-          "Have I not commanded you? Be strong and courageous. Do not be afraid, do not be discouraged, for the Lord your God will be with you wherever you go."
-        </p>
-        <span class="verse-ref">INITIATE // JOSHUA 1:9</span>
-      </div>
+      <p class="sub commanding-verse">
+        <i class="fa-solid fa-quote-left verse-icon"></i>
+        Have I not commanded you? Be strong and courageous. Do not be afraid, do not be discouraged, for the Lord your God will be with you wherever you go.
+        <i class="fa-solid fa-quote-right verse-icon"></i>
+      </p>
 
       <div class="socials">
         <a href="https://github.com/Friendly-user0" target="_blank" class="social-link" data-term="executing git clone friendly-user0...">
@@ -103,7 +111,7 @@
         <div class="content markdown">
           <ul>
             <li>Identified and reported vulnerabilities across platforms like HackerOne, Bugcrowd, Intigriti, and self-hosted programs.</li>
-            <li>Submitted valid findings on Linkedin, National Aeronautics and Space Administration (NASA) and many more.</li>
+            <li>Submitted valid findings on LinkedIn, National Aeronautics and Space Administration (NASA) and many more.</li>
             <li>Selected as a Private Invitee on some programs.</li>
             <li>Actively engaged in identifying authentication flaws, session management weaknesses, RCE, and business logic vulnerabilities.</li>
             <li>Communicated findings through detailed technical reports, reproducible attack scenarios, and impact analysis.</li>
@@ -210,12 +218,11 @@
 
     <section class="section reveal" data-term="verifying credentials...">
       <div class="grid dual-grid">
-        <div class="glass-card">
-          <div class="section-header"><i class="fa-solid fa-quote-left"></i> <h3>Weekly Directive</h3></div>
-          <div class="markdown">
-            <blockquote id="weekly-quote" class="highlight" style="margin-top: 0;">
-              Initializing directive...
-            </blockquote>
+        <div class="glass-card directive-card">
+          <div class="section-header"><i class="fa-solid fa-terminal"></i> <h3>Weekly System Directive</h3></div>
+          <div class="quote-wrapper">
+            <p id="weekly-quote" class="quote-text">"Loading localized motivational feed..."</p>
+            <span id="quote-author" class="quote-author"></span>
           </div>
         </div>
         <div class="glass-card">
