@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0f14;
+  color: #e6edf3;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #7ee787;
+  margin-top: 10px;
+}
+
+.tagline {
+  margin-top: 10px;
+  color: #8b949e;
+}
+
+/* BUTTONS */
+.buttons {
+  margin-top: 20px;
+}
+
+.buttons a {
+  display: inline-block;
+  margin: 5px;
+  padding: 10px 16px;
+  border: 1px solid #2ea043;
+  color: #7ee787;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.buttons a:hover {
+  background: #2ea043;
+  color: black;
+}
+
+/* STATS */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  border: 1px solid #30363d;
+  padding: 15px;
+  border-radius: 8px;
+  background: #111827;
+}
+
+/* SECTIONS */
+.section {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.section h2 {
+  border-left: 4px solid #2ea043;
+  padding-left: 10px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.box {
+  background: #111827;
+  border: 1px solid #30363d;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.box:hover {
+  border-color: #2ea043;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #8b949e;
+}
