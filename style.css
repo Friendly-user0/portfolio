@@ -6,10 +6,11 @@
   cursor: none; 
 }
 
-/* SAFETY FIX: Ensure body height exists for absolute positioning */
+/* SAFETY FIX: Hard lock the html/body height so fixed positioning is bulletproof */
 html, body {
   width: 100%;
   height: 100%;
+  background-color: #05060a;
 }
 
 :root {
@@ -24,7 +25,6 @@ html, body {
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg-color);
   color: var(--text-main);
   overflow-x: hidden;
   line-height: 1.6;
@@ -68,66 +68,49 @@ body {
   backdrop-filter: blur(2px);
 }
 
-/* =========================
-   BACKGROUND SYSTEM
-========================= */
+/* =======================================
+   BULLETPROOF BACKGROUND SYSTEM
+======================================= */
 .bg {
   position: fixed;
   inset: 0;
-  z-index: -3;
+  z-index: -10; /* Sent far to the back */
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
-  pointer-events: none; /* SAFETY FIX: prevents intercepting clicks */
-  background: radial-gradient(circle at top, #0b1020, #05060a 70%);
+  background: radial-gradient(circle at top center, #0b1020, #030408 80%);
+  pointer-events: none;
 }
 
 #orb-container {
   position: absolute;
   inset: 0;
-  z-index: 0;
-}
-.glass-layer {
-  z-index: 1;
-}
-
-.terminal, .container {
-  position: relative;
-  z-index: 2;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Inside .bg layer */
 }
 
+/* JS injected orbs */
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.45;
+  /* Ensure visibility: normal blending, high opacity, soft blur */
+  mix-blend-mode: normal;
+  opacity: 0.65;
+  filter: blur(60px);
+  will-change: left, top; 
   pointer-events: none;
-  will-change: left, top;
-  z-index: 0;   /* ADD THIS */
 }
 
-/* =========================
-   GLASS LAYER (DEPTH EFFECT)
-========================= */
+/* Texture layer sitting OVER the orbs but UNDER the content */
 .glass-layer {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.05), transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.04), transparent 45%),
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03), transparent 60%);
-
-  backdrop-filter: blur(60px);
-  -webkit-backdrop-filter: blur(60px);
-  opacity: 0.8;
-  pointer-events: none;
-}
-
-/* subtle noise overlay */
-.glass-layer::after {
-  content: "";
-  position: absolute;
-  inset: 0;
+  z-index: 2; /* Sits above orbs */
   background-image: url("https://www.transparenttextures.com/patterns/noise.png");
   opacity: 0.04;
+  pointer-events: none;
+  /* CRITICAL: No backdrop-filter here, otherwise it hides the orbs! */
 }
 
 /* --- TERMINAL FEED --- */
@@ -144,8 +127,14 @@ body {
 }
 .term-icon { color: var(--text-muted); font-size: 14px; }
 
-/* --- LAYOUT --- */
-.container { max-width: 1000px; margin: 0 auto; padding: 0 20px 80px 20px; }
+/* --- MAIN CONTENT LAYOUT --- */
+.container { 
+  position: relative; 
+  z-index: 10; /* Guaranteed to sit above background */
+  max-width: 1000px; 
+  margin: 0 auto; 
+  padding: 0 20px 80px 20px; 
+}
 
 /* --- HERO --- */
 .hero { text-align: center; padding: 100px 0 60px 0; }
@@ -193,9 +182,15 @@ h1 { font-size: 2.8rem; font-weight: 600; letter-spacing: -1px; margin-bottom: 5
 .section-header h3 { font-size: 1.4rem; font-weight: 600; color: #fff; }
 .section-header i { color: var(--accent-purple); font-size: 18px; }
 
+/* The cards handle the frost effect locally! */
 .glass-panel, .glass-card {
-  background: var(--card-bg); border: 1px solid var(--card-border);
-  border-radius: 12px; backdrop-filter: blur(12px); padding: 25px;
+  background: var(--card-bg); 
+  border: 1px solid var(--card-border);
+  border-radius: 12px; 
+  padding: 25px;
+  backdrop-filter: blur(14px); /* Frosts the moving orbs passing beneath */
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .text-block { color: var(--text-muted); font-size: 1rem; }

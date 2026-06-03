@@ -1,4 +1,4 @@
-// Wrap everything to guarantee the DOM is fully loaded before JS fires
+// Safely wait for the DOM to fully build before injecting anything
 document.addEventListener("DOMContentLoaded", () => {
 
   // --- SCROLL REVEAL ANIMATION ---
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   requestAnimationFrame(renderCursor);
 
-  const clickables = document.querySelectorAll("a, summary, .stat-card, .repo-card");
+  const clickables = document.querySelectorAll("a, summary, .stat-card, .repo-card, .glass-btn");
   clickables.forEach((el) => {
     el.addEventListener("mouseenter", () => {
       if(cursorOutline) cursorOutline.classList.add("cursor-hover");
@@ -66,11 +66,11 @@ document.addEventListener("DOMContentLoaded", () => {
     "waiting for input..."
   ];
 
-  let i = 0;
+  let lineIdx = 0;
   function cycleDefaultTerminal() {
     if (!isHovering && termText) {
-      termText.innerText = `user@cyber-nish:~$ ${defaultLines[i % defaultLines.length]}`;
-      i++;
+      termText.innerText = `user@cyber-nish:~$ ${defaultLines[lineIdx % defaultLines.length]}`;
+      lineIdx++;
     }
   }
   setInterval(cycleDefaultTerminal, 3000);
@@ -92,54 +92,58 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   const orbContainer = document.getElementById("orb-container");
   
-  // SAFETY CHECK: If container isn't found, abort orb logic to prevent crash
   if (!orbContainer) {
-    console.error("Orb container not found in DOM!");
-    return;
+    console.error("Orb container not found! HTML structure might be broken.");
+    return; // Fast fail if DOM is missing
   }
 
   const colors = [
-    "rgba(124, 58, 237, 0.6)",   // purple
-    "rgba(37, 99, 235, 0.6)",    // blue
-    "rgba(6, 182, 212, 0.5)",    // cyan
-    "rgba(168, 85, 247, 0.5)"    // violet
+    "rgba(124, 58, 237, 0.7)",   // vivid purple
+    "rgba(37, 99, 235, 0.7)",    // bright blue
+    "rgba(6, 182, 212, 0.6)",    // vivid cyan
+    "rgba(168, 85, 247, 0.6)"    // violet
   ];
 
   const orbs = [];
+  const ORB_COUNT = 7; // Number of floating blobs
 
   function createOrb(index) {
     const orb = document.createElement("div");
     orb.className = "orb";
 
-    const size = Math.random() * 300 + 200;
+    // Random size between 250px and 550px for deep contrast
+    const size = Math.random() * 300 + 250;
     orb.style.width = size + "px";
     orb.style.height = size + "px";
 
+    // Cycle through colors
     orb.style.background = colors[index % colors.length];
 
+    // Random starting position (in percentages)
     const startX = Math.random() * 100;
     const startY = Math.random() * 100;
     
     orb.style.left = startX + "%";
     orb.style.top = startY + "%";
 
+    // Save state to dataset to prevent CSS string-parsing glitches
     orb.dataset.x = startX;
     orb.dataset.y = startY;
     
-    // Smooth custom velocity
-    orb.dataset.vx = (Math.random() - 0.5) * 0.15; 
-    orb.dataset.vy = (Math.random() - 0.5) * 0.15;
+    // Assign soft floating velocity
+    orb.dataset.vx = (Math.random() - 0.5) * 0.18; 
+    orb.dataset.vy = (Math.random() - 0.5) * 0.18;
 
     orbContainer.appendChild(orb);
     orbs.push(orb);
   }
 
-  // create 6 orbs
-  for (let j = 0; j < 6; j++) {
+  // Generate the blobs
+  for (let j = 0; j < ORB_COUNT; j++) {
     createOrb(j);
   }
 
-  // animation loop
+  // Frame-by-frame physics loop
   function animateOrbs() {
     orbs.forEach((orb) => {
       let x = parseFloat(orb.dataset.x);
@@ -148,16 +152,19 @@ document.addEventListener("DOMContentLoaded", () => {
       let vx = parseFloat(orb.dataset.vx);
       let vy = parseFloat(orb.dataset.vy);
 
+      // Move by velocity
       x += vx;
       y += vy;
 
-      // soft bounce 
-      if (x < -10 || x > 110) orb.dataset.vx = vx * -1;
-      if (y < -10 || y > 110) orb.dataset.vy = vy * -1;
+      // Soft bounce off the invisible bounds (-20% to 120% so they can drift slightly off-screen)
+      if (x < -20 || x > 120) orb.dataset.vx = vx * -1;
+      if (y < -20 || y > 120) orb.dataset.vy = vy * -1;
 
+      // Update stored coordinates
       orb.dataset.x = x;
       orb.dataset.y = y;
 
+      // Apply to DOM
       orb.style.left = x + "%";
       orb.style.top = y + "%";
     });
@@ -165,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(animateOrbs);
   }
 
-  // Start the background float
+  // Ignite the background engine
   animateOrbs();
 
 });
