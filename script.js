@@ -1,120 +1,86 @@
-// scroll reveal
+// --- SCROLL REVEAL ANIMATION ---
 const items = document.querySelectorAll(".reveal");
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add("active");
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting) {
+      e.target.classList.add("active");
+    }
+  });
+}, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+items.forEach((el) => observer.observe(el));
+
+// --- CUSTOM CURSOR LOGIC ---
+const cursorDot = document.getElementById("cursor-dot");
+const cursorOutline = document.getElementById("cursor-outline");
+
+window.addEventListener("mousemove", (e) => {
+  const posX = e.clientX;
+  const posY = e.clientY;
+
+  cursorDot.style.left = `${posX}px`;
+  cursorDot.style.top = `${posY}px`;
+
+  // Slight delay for the outline trailing effect
+  cursorOutline.animate({
+    left: `${posX}px`,
+    top: `${posY}px`
+  }, { duration: 500, fill: "forwards" });
+});
+
+// Expand cursor on clickable items
+const clickables = document.querySelectorAll("a, summary, .stat-card");
+clickables.forEach((el) => {
+  el.addEventListener("mouseenter", () => {
+    cursorOutline.style.width = "50px";
+    cursorOutline.style.height = "50px";
+    cursorOutline.style.borderColor = "#00b4d8"; // blue accent
+  });
+  el.addEventListener("mouseleave", () => {
+    cursorOutline.style.width = "30px";
+    cursorOutline.style.height = "30px";
+    cursorOutline.style.borderColor = "#9d4edd"; // purple accent
   });
 });
 
-items.forEach(el => observer.observe(el));
+// --- TERMINAL MICRO-INTERACTIONS ---
+const termText = document.getElementById("term-text");
+let defaultTermInterval;
+let isHovering = false;
 
-
-// terminal feed
-const lines = [
-  "indexing GitHub repositories...",
-  "mapping AI research modules...",
-  "loading vulnerability database...",
-  "syncing HTB profile...",
-  "system ready."
+const defaultLines = [
+  "monitoring network traffic...",
+  "analyzing malware for ethical hacking...",
+  "bypassing rate limits...",
+  "compiling threat reports...",
+  "waiting for input..."
 ];
 
 let i = 0;
-setInterval(() => {
-  document.getElementById("terminal").innerText = lines[i % lines.length];
-  i++;
-}, 2000);
-
-
-// accordion interaction
-document.querySelectorAll(".acc-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const body = btn.nextElementSibling;
-    const open = body.style.maxHeight;
-
-    document.querySelectorAll(".acc-body").forEach(b => b.style.maxHeight = null);
-
-    if (!open) {
-      body.style.maxHeight = body.scrollHeight + "px";
-    }
-  });
-});
-
-
-// cursor glow
-const cursor = document.createElement("div");
-cursor.className = "cursor";
-document.body.appendChild(cursor);
-
-document.addEventListener("mousemove", e => {
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
-});
-
-
-// simple animated background (particle network)
-const canvas = document.getElementById("bgCanvas");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-for (let i = 0; i < 60; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    vx: (Math.random() - 0.5) * 0.5,
-    vy: (Math.random() - 0.5) * 0.5
-  });
-}
-
-function animate() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
-
-    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-    ctx.fillStyle = "#7aa2ff";
-    ctx.fillRect(p.x, p.y, 2, 2);
-  });
-
-  requestAnimationFrame(animate);
-}
-
-animate();
-
-
-// dynamic projects loader (GitHub links only, no API spam)
-const projects = [
-  {
-    name: "Python Security Toolkit",
-    url: "https://github.com/Friendly-user0/Python",
-    desc: "Recon scripts, automation, security utilities"
-  },
-  {
-    name: "Advanced Tools",
-    url: "https://github.com/Friendly-user0/Tools",
-    desc: "Exploitation utilities & frameworks"
-  },
-  {
-    name: "AI Hacking Research",
-    url: "https://github.com/Friendly-user0/Web-Hacking/blob/main/AI_Hacking.md",
-    desc: "LLM attack vectors & research notes"
+function cycleDefaultTerminal() {
+  if (!isHovering) {
+    termText.innerText = `user@cyber-nish:~$ ${defaultLines[i % defaultLines.length]}`;
+    i++;
   }
-];
+}
 
-const container = document.getElementById("projects");
+// Start default cycle
+defaultTermInterval = setInterval(cycleDefaultTerminal, 3000);
 
-projects.forEach(p => {
-  const div = document.createElement("a");
-  div.className = "card link";
-  div.href = p.url;
-  div.innerHTML = `<b>${p.name}</b><br><small>${p.desc}</small>`;
-  container.appendChild(div);
+// Override terminal text when hovering over sections with data-term
+const termTriggers = document.querySelectorAll("[data-term]");
+
+termTriggers.forEach((el) => {
+  el.addEventListener("mouseenter", (e) => {
+    isHovering = true;
+    // Typewriter effect for hover
+    const targetText = `user@cyber-nish:~$ ${e.target.getAttribute("data-term")}`;
+    termText.innerText = targetText;
+  });
+
+  el.addEventListener("mouseleave", () => {
+    isHovering = false;
+    termText.innerText = `user@cyber-nish:~$ returning to background tasks...`;
+  });
 });

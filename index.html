@@ -1,173 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Nischal | Security Researcher</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nischal B. Thapa | Security Researcher</title>
+  <link rel="icon" href="https://avatars.githubusercontent.com/u/214543684?v=4" />
+  
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 
-<link rel="stylesheet" href="style.css"/>
-<script defer src="script.js"></script>
-
-<script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<canvas id="bgCanvas"></canvas>
-<div class="noise"></div>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-outline" id="cursor-outline"></div>
 
-<!-- floating terminal feed -->
-<div class="terminal" id="terminal">booting research interface...</div>
+  <div class="bg-animation">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="noise"></div>
 
-<!-- HERO -->
-<header class="hero reveal">
-
-  <div class="pfp-wrap">
-    <img class="pfp" src="https://media.licdn.com/dms/image/v2/D5616AQEj8tWX729m-Q/profile-displaybackgroundimage-shrink_350_1400/B56Z4BZz9sJwAU-/0/1778140004464?e=1782345600&v=beta&t=xyL-Xectc-IETuAMvkS8on1tOLda8G5Iiyo2XtYshgg"/>
+  <div class="terminal" id="terminal">
+    <i data-lucide="terminal" class="term-icon"></i>
+    <span id="term-text">user@cyber-nish:~$ ./initialize_profile.sh</span>
   </div>
 
-  <h1>Nischal Bahadur Thapa</h1>
+  <main class="container">
+    
+    <header class="hero reveal" data-term="evaluating host... identifying target... cyber-nish loaded.">
+      <div class="pfp-container">
+        <img class="pfp" src="https://media.licdn.com/dms/image/v2/D5616AQEj8tWX729m-Q/profile-displaybackgroundimage-shrink_350_1400/B56Z4BZz9sJwAU-/0/1778140004464?e=1782345600&v=beta&t=xyL-Xectc-IETuAMvkS8on1tOLda8G5Iiyo2XtYshgg" alt="Nischal Bahadur Thapa" />
+        <div class="pfp-glow"></div>
+      </div>
+      
+      <h1>Nischal Bahadur Thapa</h1>
+      <h2 class="role">Independent Security Researcher</h2>
+      <p class="sub">Vulnerability Research | AI Security | Malware Analysis | OSINT</p>
 
-  <p class="role">Independent Security Researcher</p>
+      <div class="socials">
+        <a href="https://github.com/Friendly-user0" target="_blank" data-term="executing git clone friendly-user0..."><i data-lucide="github"></i></a>
+        <a href="https://www.youtube.com/@shin_bdr" target="_blank" data-term="buffering vulnerability walkthroughs..."><i data-lucide="youtube"></i></a>
+        <a href="https://www.linkedin.com/in/cyber-nish" target="_blank" data-term="establishing secure connection to LinkedIn..."><i data-lucide="linkedin"></i></a>
+        <a href="https://www.instagram.com/shin.cyber/" target="_blank" data-term="mapping social network..."><i data-lucide="instagram"></i></a>
+        <a href="mailto:nishthapa09@gmail.com" data-term="opening smtp relay..."><i data-lucide="mail"></i></a>
+      </div>
+    </header>
 
-  <p class="sub">
-    Vulnerability Research • AI Security • OSINT • Web Exploitation • Automation
-  </p>
+    <section class="stats reveal" data-term="querying statistics database...">
+      <div class="stat-card"><i data-lucide="crosshair"></i> <span>Top 0.016% HTB</span></div>
+      <div class="stat-card"><i data-lucide="shield-alert"></i> <span>Bug Bounty Hunter</span></div>
+      <div class="stat-card"><i data-lucide="cpu"></i> <span>AI Security Analyst</span></div>
+      <div class="stat-card"><i data-lucide="code-2"></i> <span>Tool Developer</span></div>
+    </section>
 
-  <div class="socials">
-    <a href="https://github.com/Friendly-user0"><i data-lucide="github"></i></a>
-    <a href="https://www.youtube.com/@shin_bdr"><i data-lucide="youtube"></i></a>
-    <a href="https://www.linkedin.com/in/cyber-nish"><i data-lucide="linkedin"></i></a>
-    <a href="https://www.instagram.com/shin.cyber/"><i data-lucide="instagram"></i></a>
-  </div>
-</header>
+    <section class="section reveal glass-panel" data-term="cat overview.txt">
+      <div class="section-header">
+        <i data-lucide="user"></i> <h3>Objective & Overview</h3>
+      </div>
+      <p class="text-block">
+        Independent Researcher and Technical Analyst with experience in vulnerability research, technical analysis, OSINT, development, and security-focused automation. Skilled in vulnerability assessment, technical investigation, and building adaptable solutions across modern IT environments. 
+        <br><br>
+        <span class="highlight">"With a proven track record in vulnerability research, I am currently deepening my expertise in AI security and malware development, with a focus on automating and enhancing threat detection through artificial intelligence to stop cybercrime from spreading."</span>
+      </p>
+    </section>
 
-<!-- QUICK METRICS -->
-<section class="chips reveal">
-  <span>HTB Top 0.016%</span>
-  <span>Bug Bounty Researcher</span>
-  <span>AI Security Labs</span>
-  <span>Self Hosted VDPs</span>
-</section>
+    <section class="section reveal" data-term="ls -la /var/log/experience/">
+      <div class="section-header">
+        <i data-lucide="briefcase"></i> <h3>Experience</h3>
+      </div>
 
-<!-- ABOUT -->
-<section class="section reveal">
-  <h2>Objective</h2>
-  <p>
-    Independent Researcher and Technical Analyst focused on vulnerability research,
-    OSINT, AI security, automation, and adversarial system analysis.
-  </p>
-</section>
+      <details class="interactive-dropdown glass-card">
+        <summary><span class="arrow">▶</span> Independent Researcher | AI Security <span class="date">Jun 2025 - Present</span></summary>
+        <div class="content markdown">
+          <ul>
+            <li>Currently engaged in researching Artificial Intelligence attack vectors.</li>
+            <li>Completed the TCM AI Cyber Security workshop.</li>
+            <li>Solved all the LLM attack vector related labs on PortSwigger Academy.</li>
+            <li>Researching AI LLM attacks on Gray Swan Academy.</li>
+            <li>Constantly creating new tools and scripts with the help of AI for better workflow.</li>
+          </ul>
+          <div class="tags"><span>AI</span><span>Technical Research</span></div>
+        </div>
+      </details>
 
-<!-- EXPERIENCE (interactive markdown panels) -->
-<section class="section reveal">
-<h2>Experience Matrix</h2>
+      <details class="interactive-dropdown glass-card">
+        <summary><span class="arrow">▶</span> Security Researcher | Bug Bounty <span class="date">Sep 2023 - Present</span></summary>
+        <div class="content markdown">
+          <ul>
+            <li>Identified and reported vulnerabilities across platforms like HackerOne, Bugcrowd, Intigriti, and self-hosted programs.</li>
+            <li>Submitted valid findings on LinkedIn, NASA (National Aeronautics and Space Administration), and many more.</li>
+            <li>Selected as a Private Invitee on some programs.</li>
+            <li>Actively engaged in identifying authentication flaws, session management weaknesses, RCE, and business logic vulnerabilities in real-world applications.</li>
+            <li>Communicated findings through detailed technical reports, reproducible attack scenarios, and impact analysis.</li>
+          </ul>
+          <div class="tags"><span>Bug Bounty</span><span>Ethical Hacking</span><span>OWASP</span></div>
+        </div>
+      </details>
 
-<div class="accordion">
+      <details class="interactive-dropdown glass-card">
+        <summary><span class="arrow">▶</span> Ethical Hacker | Hack The Box <span class="date">Feb 2024 - Present</span></summary>
+        <div class="content markdown">
+          <ul>
+            <li>Spent the initial journey mastering web challenges.</li>
+            <li>90%+ success rate in identifying misconfigurations and hidden endpoints in lab simulations.</li>
+            <li>Achieved Top 0.016% globally.</li>
+          </ul>
+        </div>
+      </details>
 
-  <div class="acc-item">
-    <button class="acc-btn">Bug Bounty Researcher <span>+</span></button>
-    <div class="acc-body">
-      <ul>
-        <li>HackerOne • Bugcrowd • Integrity • NASA • Private Programs</li>
-        <li>Auth bypass • RCE • session flaws • business logic vulnerabilities</li>
-        <li>Detailed reproducible reports with impact analysis</li>
-      </ul>
-    </div>
-  </div>
+      <details class="interactive-dropdown glass-card">
+        <summary><span class="arrow">▶</span> Lead | Researchers Team (Mars VDP) <span class="date">Dec 2025</span></summary>
+        <div class="content markdown">
+          <ul>
+            <li>Collaborated with security researchers from different servers and performed security assessment on a VDP.</li>
+            <li>Directed the team on a temporary targeted project, holding meetings and documenting findings.</li>
+            <li>Successfully identified bugs on Mars Vulnerability Disclosure Program and concluded the project after achieving objectives.</li>
+          </ul>
+        </div>
+      </details>
 
-  <div class="acc-item">
-    <button class="acc-btn">AI Security Research <span>+</span></button>
-    <div class="acc-body">
-      <ul>
-        <li>PortSwigger LLM labs (100% completion)</li>
-        <li>Gray Swan Academy research</li>
-        <li>Prompt injection, jailbreak analysis, model abuse testing</li>
-      </ul>
-    </div>
-  </div>
+      <details class="interactive-dropdown glass-card">
+        <summary><span class="arrow">▶</span> Secretary General | Southwestern State College <span class="date">Apr 2025 - Apr 2026</span></summary>
+        <div class="content markdown">
+          <ul>
+            <li>General secretary of the IT club. Built and launched two major websites for college activities.</li>
+            <li>Organized a Quiz competition with a web interface and a questionnaire bot.</li>
+            <li>Hosted an E-Sports event, managing resources and budget evaluation.</li>
+          </ul>
+        </div>
+      </details>
 
-  <div class="acc-item">
-    <button class="acc-btn">Hack The Box <span>+</span></button>
-    <div class="acc-body">
-      <ul>
-        <li>Top 0.016% globally</li>
-        <li>Advanced recon + web exploitation</li>
-      </ul>
-    </div>
-  </div>
+      <details class="interactive-dropdown glass-card">
+        <summary><span class="arrow">▶</span> Video Streamer | The YouTube Channel</summary>
+        <div class="content markdown">
+          <ul>
+            <li>Producing technical walkthroughs and vulnerability research tutorials to educate the cyber space on ethical hacking methodologies.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
 
-  <div class="acc-item">
-    <button class="acc-btn">Leadership <span>+</span></button>
-    <div class="acc-body">
-      <ul>
-        <li>IT Club Secretary General</li>
-        <li>Research Team Lead (temporary ops)</li>
-        <li>Project coordination + execution</li>
-      </ul>
-    </div>
-  </div>
+    <section class="section reveal" data-term="grep -r 'payload' ./projects/">
+      <div class="section-header">
+        <i data-lucide="folder-git-2"></i> <h3>Projects & Repositories</h3>
+      </div>
+      
+      <div class="grid">
+        <a href="https://github.com/Friendly-user0/Web-Hacking/blob/main/AI_Hacking.md" target="_blank" class="repo-card glass-card">
+          <h4><i data-lucide="bot"></i> AI Hacking Overview</h4>
+          <p>Extensive research and attack vectors regarding Artificial Intelligence and LLM exploitation.</p>
+        </a>
 
-</div>
-</section>
+        <a href="https://github.com/Friendly-user0/Web-Hacking/blob/main/Recon.md" target="_blank" class="repo-card glass-card">
+          <h4><i data-lucide="radar"></i> Advanced Recon Methodology</h4>
+          <p>One of the best structured reconnaissance methodologies for identifying targets.</p>
+        </a>
 
-<!-- LIVE PROJECTS -->
-<section class="section reveal">
-<h2>Live Engineering Work</h2>
-<div id="projects" class="grid"></div>
-</section>
+        <a href="https://github.com/Friendly-user0/Tools/blob/main/The_hunt_01.sh" target="_blank" class="repo-card glass-card">
+          <h4><i data-lucide="terminal-square"></i> The_Hunt_01.sh</h4>
+          <p>A flagship custom tool built for automation and advanced security workflows.</p>
+        </a>
 
-<!-- RESEARCH LINKS -->
-<section class="section reveal">
-<h2>Research Library</h2>
+        <a href="https://github.com/Friendly-user0/Python/tree/main/Tools" target="_blank" class="repo-card glass-card">
+          <h4><i data-lucide="wrench"></i> Custom Python Tools</h4>
+          <p>Scripts for IP-based rate limiting bypasses, API key rotation, reconnaissance, and post-exploitation.</p>
+        </a>
+      </div>
+    </section>
 
-<div class="grid">
+    <section class="section reveal" data-term="accessing writeups database...">
+      <div class="section-header">
+        <i data-lucide="book-open"></i> <h3>Writeups & Documentation</h3>
+      </div>
+      <div class="links-grid">
+        <a href="https://github.com/Friendly-user0/Writeups/tree/main/HacktheBox" target="_blank" class="glass-btn">HTB Writeups</a>
+        <a href="https://github.com/Friendly-user0/Writeups/tree/main/TryHackME" target="_blank" class="glass-btn">THM Writeups</a>
+        <a href="https://github.com/Friendly-user0/Web-Hacking" target="_blank" class="glass-btn">Web Hacking Notes</a>
+        <a href="https://github.com/Friendly-user0/Python/tree/main/Beginner_Projects" target="_blank" class="glass-btn">Beginner Python Projects</a>
+      </div>
+    </section>
 
-  <a class="card link" href="https://github.com/Friendly-user0/Writeups">
-    HTB / THM Writeups
-  </a>
+    <section class="section reveal" data-term="verifying credentials...">
+      <div class="grid dual-grid">
+        <div class="glass-card">
+          <div class="section-header"><i data-lucide="graduation-cap"></i> <h3>Education</h3></div>
+          <div class="markdown">
+            <ul>
+              <li><b>Southwestern State College</b> - High School Final Year (Waiting results) | First Year: 3.7 GPA</li>
+              <li><b>Gyanmandir Secondary English School</b> - SLC: 3.76 GPA | BLE: 3.45 GPA</li>
+            </ul>
+          </div>
+        </div>
 
-  <a class="card link" href="https://github.com/Friendly-user0/Web-Hacking/blob/main/AI_Hacking.md">
-    AI Security Research
-  </a>
+        <div class="glass-card">
+          <div class="section-header"><i data-lucide="award"></i> <h3>Certificates & Details</h3></div>
+          <div class="markdown">
+            <ul>
+              <li>CS50 Introduction to Cybersecurity (Cambridge, MA)</li>
+              <li>Kairos Sec: AD Windows Hacking</li>
+              <li>ADB Institute Cybersecurity course</li>
+              <li><b>Languages:</b> English (Fluent), Nepali (Native), Sign Language (Conversational)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <a class="card link" href="https://github.com/Friendly-user0/Web-Hacking/blob/main/Recon.md">
-    Recon Methodology
-  </a>
+    <footer class="reveal glass-panel">
+      <p>© 2026 Nischal Bahadur Thapa | Designed for the shadows.</p>
+    </footer>
 
-  <a class="card link" href="https://github.com/Friendly-user0/Web-Hacking">
-    Web Hacking Notes
-  </a>
+  </main>
 
-</div>
-</section>
-
-<!-- FULL PROFILE -->
-<section class="section reveal">
-<h2>Full Profile</h2>
-
-<div class="card">
-<p>
-With a proven track record in vulnerability research, I am currently deepening expertise in AI security and automation-driven threat detection.
-</p>
-
-<br>
-
-<p><b>AI Research:</b> LLM attacks, prompt injection, automation tools</p>
-<p><b>Bug Bounty:</b> Real-world valid reports across platforms & private VDPs</p>
-<p><b>Leadership:</b> IT Club Secretary, Research Team Lead</p>
-<p><b>Systems:</b> Web exploitation, recon, OSINT, scripting</p>
-</div>
-
-</section>
-
-<footer class="reveal">
-  <p>© 2026 Nischal Thapa — Security Research Terminal</p>
-</footer>
-
-<script>
-lucide.createIcons();
-</script>
-
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>
